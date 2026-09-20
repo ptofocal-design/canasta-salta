@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metodología y términos · Canasta Salta</title>
+<meta name="description" content="Cómo se arma la comparación de precios de Canasta Salta, de dónde salen los datos, sus límites, los términos de uso y la política de privacidad.">
+<meta name="theme-color" content="#6A0913">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#6A0913; --brand-ink:#FFF8F0; --deep:#4A0A13; --terra:#C3582A; --sun:#F7C67B;
+  --good:#1B592C; --good-ink:#FFFFFF; --goodbg:#E3F0E4; --bg:#FBF8F2; --hdr:#FDFAF7; --card:#FFFFFF; --ink:#2B2224; --mute:#6E5F5B; --line:#EADFD3; --tint:#F7ECE1;
+  --font:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --brand:#F7C67B; --brand-ink:#3B1A05; --deep:#2E0509; --terra:#D96B29; --sun:#F7C67B;
+  --good:#6FD08A; --good-ink:#0B2A17; --goodbg:#1F3A27; --bg:#1A0A0C; --hdr:#2A1215; --card:#2A1215; --ink:#F6EDE2; --mute:#BBA49E; --line:#4A2428; --tint:#3A181C;
+}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.65 var(--font);-webkit-font-smoothing:antialiased}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:6px}
+a{color:var(--brand);font-weight:600}
+.wrap{max-width:820px;margin:0 auto;padding:0 18px}
+header.top{position:sticky;top:0;z-index:10;background:var(--hdr);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;padding-bottom:10px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand img{height:58px;width:auto;display:block}
+.brand strong{display:block;font-size:1.45rem;font-weight:800;line-height:.95;color:var(--brand)}
+.brand small{display:block;font-size:.66rem;font-weight:500;letter-spacing:.6em;margin-top:6px;color:var(--ink)}
+.volver{font-size:.86rem;text-decoration:none;border:1.5px solid var(--brand);border-radius:10px;padding:8px 14px;white-space:nowrap}
+h1{font-size:clamp(1.7rem,5vw,2.4rem);line-height:1.15;letter-spacing:-.02em;margin:34px 0 6px;font-weight:800}
+h2{font-size:1.3rem;letter-spacing:-.01em;margin:42px 0 8px;font-weight:800;line-height:1.25}
+h3{font-size:1.02rem;margin:22px 0 4px;font-weight:700}
+p,li{margin:8px 0}
+ul,ol{padding-left:22px}
+.meta{color:var(--mute);font-size:.86rem;margin:0 0 16px}
+.aviso{background:var(--tint);border:1.5px dashed var(--terra);border-radius:14px;padding:14px 16px;font-size:.92rem;margin:20px 0}
+.aviso b{color:var(--brand)}
+nav.toc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:22px 0}
+nav.toc b{display:block;margin-bottom:4px}
+nav.toc ol{columns:2;column-gap:26px;margin:0;font-size:.9rem}
+@media(max-width:600px){nav.toc ol{columns:1}}
+nav.toc li{margin:3px 0;break-inside:avoid}
+.t{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card);margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:.85rem}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--tint);font-weight:700}
+tr:last-child td{border-bottom:0}
+.no{color:var(--mute)}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0}
+summary{cursor:pointer;font-weight:700}
+.clave{background:var(--goodbg);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:.94rem}
+.ecuacion{background:var(--tint);border:2px dashed var(--terra);border-radius:16px;padding:16px 14px;margin:20px 0;text-align:center}
+.ec-t{margin:0 0 10px;font-weight:800;font-size:.95rem;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
+.ec-fila{display:flex;flex-wrap:wrap;align-items:stretch;justify-content:center;gap:8px}
+.ec-caja{display:flex;flex-direction:column;justify-content:center;background:var(--card);border:2px solid var(--brand);border-radius:12px;padding:10px 14px;min-width:150px}
+.ec-caja b{font-size:1.1rem;font-weight:800;letter-spacing:.03em;color:var(--brand);line-height:1.15}
+.ec-caja small{font-size:.74rem;color:var(--mute);margin-top:3px;line-height:1.25}
+.ec-m{background:var(--good);border-color:var(--good)}
+.ec-m b{color:var(--good-ink)}
+.ec-op{align-self:center;font-size:1.6rem;font-weight:800;color:var(--terra)}
+@media(max-width:640px){.ec-fila{flex-direction:column;align-items:center}.ec-caja{width:100%;max-width:340px}.ec-op{line-height:1}}
+.ec-no{margin:14px 0 0;font-size:.88rem}
+.ec-no span{display:inline-block;margin:2px 6px;color:var(--mute);font-weight:600}
+footer{border-top:1px solid var(--line);margin-top:54px;padding:22px 0 40px;color:var(--mute);font-size:.84rem}
+</style>
+<meta name="author" content="Punto Focal Diseño">
+<meta name="copyright" content="© 2026 Punto Focal Diseño. Todos los derechos reservados">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="./" aria-label="Canasta Salta, inicio">
+    <picture><source media="(prefers-color-scheme: dark)" srcset="assets/marca-oscuro.png"><img src="assets/marca-claro.png" alt="" width="62" height="58"></picture>
+    <span><strong>CANASTA</strong><small>SALTA</small></span>
+  </a>
+  <a class="volver" href="./">← Volver</a>
+</div></header>
+
+<main class="wrap">
+  <h1>Metodología y términos</h1>
+  <p class="meta">Versión 1.0 · última actualización de este documento: 19 de septiembre de 2026 · datos de precios al 20/09/2026</p>
+
+  <div class="aviso"><b>En una línea:</b> mostramos los precios que las propias cadenas informan al Estado (SEPA), armamos con ellos una canasta de 43 productos y ordenamos a los supermercados de Salta capital según cuánto cuesta esa canasta <b>ese día</b>. Es una herramienta informativa, con límites que explicamos acá.</div>
+
+  <nav class="toc" aria-label="Contenido">
+    <b>Contenido</b>
+    <ol>
+      <li><a href="#que-es">¿Qué es Canasta Salta?</a></li>
+      <li><a href="#datos">¿De dónde salen los datos?</a></li>
+      <li><a href="#precio">¿Qué precio mostramos?</a></li>
+      <li><a href="#canasta">La canasta de productos</a></li>
+      <li><a href="#capital">¿Qué es “Salta capital”?</a></li>
+      <li><a href="#cadena">¿Cómo se calcula el precio de cada cadena?</a></li>
+      <li><a href="#ranking">¿Cómo se arma el ranking?</a></li>
+      <li><a href="#variacion">Las flechas ▲▼</a></li>
+      <li><a href="#avisos">Avisos de usuarios y “verificado en góndola”</a></li>
+      <li><a href="#correcciones">Errores, correcciones y pedidos de retiro</a></li>
+      <li><a href="#terminos">Términos de uso</a></li>
+      <li><a href="#marcas">Marcas, fotos y créditos</a></li>
+      <li><a href="#privacidad">Privacidad y datos personales</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="que-es">1. ¿Qué es Canasta Salta?</h2>
+  <p>Es un comparador independiente de precios de supermercados de Salta capital. Es un proyecto de <b>Punto Focal Diseño</b>. <b>No está afiliado, patrocinado ni avalado</b> por ninguna cadena de supermercados ni por ningún organismo público. No vende productos.</p>
+  <p>Hoy el sitio no incluye publicidad ni recibe pagos de ninguna cadena, y ninguna cadena influye en lo que se muestra.</p>
+
+  <h2 id="datos">2. ¿De dónde salen los datos?</h2>
+  <p>Los precios provienen de <a href="https://datos.produccion.gob.ar/dataset/sepa-precios" rel="noopener">Precios Claros – Base SEPA</a> (Sistema Electrónico de Publicidad de Precios Argentinos), que administra el Estado nacional. Según la Resolución 12/2016, las grandes cadenas minoristas informan a diario el precio de venta de cada producto en cada sucursal, y esa información es de acceso público. Los datos se publican como datos abiertos bajo la licencia <b>Creative Commons Atribución 4.0 (CC BY 4.0)</b>, que permite reutilizarlos citando la fuente. Eso hacemos.</p>
+  <p>SEPA publica los archivos del día alrededor de las 13:20 (hora de Argentina) y Canasta Salta los procesa cerca de las 14:30. Guardamos el historial diario ( 9 días hasta hoy).</p>
+  <p><b>Importante:</b> los precios los informan las propias cadenas. Canasta Salta no los verifica uno por uno, y pueden tener errores o diferir de lo que hay en la góndola en un momento dado.</p>
+
+  <h2 id="precio">3. ¿Qué precio mostramos?</h2>
+  <ul>
+    <li>El <b>precio de lista</b> que informa la cadena, sin descuentos.</li>
+    <li>Si la cadena informa una <b>promoción de alcance general</b> (por ejemplo, un porcentaje de descuento sin condiciones de tarjeta) y ese precio es menor, mostramos el de la promoción.</li>
+    <li><b>No incluimos</b> descuentos con tarjeta o billeteras, para jubilados, socios u otros segmentos, ni ofertas propias de un local. Algunas promociones pueden exigir comprar más de una unidad; ante la duda, la etiqueta de la góndola es la referencia.</li>
+  </ul>
+  <div class="aviso"><b>Los precios pueden variar según las PROMOS de cada súper.</b> Solo algunas cadenas informan sus promociones a SEPA, así que la falta de una promo en esta página no significa que no exista.</div>
+
+  <h2 id="canasta">4. La canasta de productos</h2>
+  <p>La canasta tiene <b>43 productos de consumo masivo</b> identificados por su código de barras (EAN): almacén, lácteos, yerba e infusiones, bebidas, fiambres, limpieza e higiene. Los eligió el autor del proyecto entre productos que se venden en varias cadenas de Salta. <b>No es una canasta oficial</b> (no es la Canasta Básica del INDEC) ni representa todo el gasto de un hogar.</p>
+  <p>No incluye carnes, verduras, frutas, pan ni huevos a granel, porque esos productos no tienen código de barras y no aparecen en SEPA.</p>
+  <details>
+    <summary>Ver los 43 productos de la canasta</summary>
+    <div class="t"><table><thead><tr><th>Producto</th><th>Rubro</th><th>En el ranking</th></tr></thead><tbody><tr><td>Aceite Girasol Cañuelas x 1.5 L</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Aceite Girasol Natura x 1.5 L</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Arroz Largo Fino 00000 Molinos Ala x 1 kg</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Atún Al Natural Lomitos La Campagnola x 170 g</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Azúcar Molida Superior Ledesma x 1 kg</td><td>Almacén</td><td>No lo informa La Anónima</td></tr><tr><td>Choclo En Granos Amarillo Arcor Lata x 300 g</td><td>Almacén</td><td>No lo informa La Anónima</td></tr><tr><td>Dulce De Leche Clásico La Serenísima x 400 g</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Fideos Spaghetti N7 Lucchetti x 500 g</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Fideos Spaghetti Rina Matarazzo x 500 g</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Fideos Tallarines Don Vicente x 500 g</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Galletitas Clásicas Traviata 5 x 108 g</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Harina De Trigo 000 Caserita x 1 kg</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Harina De Trigo 000 Ultraref Cañuelas x 1 kg</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Mayonesa Regular Hellmanns x 475 g</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Pan Rallado Lucchetti Nutrivit x 500 g</td><td>Almacén</td><td>No lo informa La Anónima</td></tr><tr><td>Polenta Instantan Prestopronta x 730 g</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Puré De Tomate Arcor x 520 g</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Sal Fina Celusal x 500 g</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Sal Gruesa Celusal x 1 kg</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Tomate Pelado Perita Arcor Lata x 400 g</td><td>Almacén</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Agua Mineral Sin Gas Villavicencio x 2 L</td><td>Bebidas</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Gaseosa Cola Regular Coca Cola x 2.25 L</td><td>Bebidas</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Gaseosa Cola Regular Pepsi N x 2 L</td><td>Bebidas</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Salchichas Vienissima x 6 u</td><td>Fiambres</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Crema Dental Triple Acción Colgate x 90 g</td><td>Higiene</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Jabón Tocador Piel Sensible Dove x 90 g</td><td>Higiene</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Papel Higiénico Hs Max Higienol 4 x 80 m</td><td>Higiene</td><td>No lo informa La Anónima</td></tr><tr><td>Shampoo Nutrición + Tri Oleos Dove x 400 cc</td><td>Higiene</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Detergente Bioactive Limón Cif x 500 cc</td><td>Limpieza</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Jabón Liq Ropa P Diluir Powr Delux Skip x 500 cc</td><td>Limpieza</td><td>No lo informa La Anónima</td></tr><tr><td>Lavandina Ropa Blancos Inten Floral Ayudin Botx1 L</td><td>Limpieza</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Leche Desc 1% Bienestar Serenísima x 1 L</td><td>Lácteos</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Leche Descremada Uat Tregar x 1 L</td><td>Lácteos</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Leche En Polvo Desc Fort. La Serenísima x 200 g</td><td>Lácteos</td><td>No lo informa La Anónima</td></tr><tr><td>Manteca Extra La Serenísima x 200 g</td><td>Lácteos</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Queso Crema Clásico Casancrem x 290 g</td><td>Lácteos</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Café Molido Clásico La Morenita x 500 g</td><td>Yerba/Infusiones</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Café Molido Clásico La Virginia x 250 g</td><td>Yerba/Infusiones</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Té En Saquitos Green Hills x 50 u</td><td>Yerba/Infusiones</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Té Filtro Diamantado Taragüí x 25 u</td><td>Yerba/Infusiones</td><td>No lo informa La Anónima</td></tr><tr><td>Yerba Mate C Palo Orig Crol Taragüí 4Flex x 1 kg</td><td>Yerba/Infusiones</td><td>No lo informa La Anónima</td></tr><tr><td>Yerba Mate Suave Amanda x 500 g</td><td>Yerba/Infusiones</td><td><span class="no">Lo informan las 6</span></td></tr><tr><td>Yerba Mate Suave Unión 4Flex x 1 kg</td><td>Yerba/Infusiones</td><td>No lo informa La Anónima</td></tr></tbody></table></div>
+  </details>
+
+  <h2 id="capital">5. ¿Qué es “Salta capital”?</h2>
+  <p>Consideramos las sucursales de la provincia de Salta que están a <b>13 km o menos del centro de la ciudad</b>, según las coordenadas que informa cada cadena. Se excluyen otras localidades (Cerrillos, San Lorenzo, Metán, Rosario de la Frontera, General Güemes, Joaquín V. González) y las farmacias. No usamos el texto de la localidad porque cada cadena lo escribe de forma distinta.</p>
+  <div class="t"><table><thead><tr><th>Cadena</th><th>Sucursales en Salta capital</th><th>¿Precio distinto por sucursal?</th></tr></thead><tbody><tr><td><b>Changomas</b></td><td>2</td><td>Sí, según la sucursal</td></tr><tr><td><b>Carrefour</b></td><td>3 (2 con datos de esta canasta)</td><td>Sí, según la sucursal</td></tr><tr><td><b>Jumbo</b></td><td>1</td><td>No aplica: un solo local</td></tr><tr><td><b>La Anónima</b></td><td>1</td><td>No aplica: un solo local</td></tr><tr><td><b>DIA</b></td><td>17</td><td>No: mismo precio en todos sus locales de la capital</td></tr><tr><td><b>Vea</b></td><td>9</td><td>No: mismo precio en todos sus locales de la capital</td></tr></tbody></table></div>
+  <p>Cuando una cadena tiene pocas sucursales en la capital (por ejemplo, un solo local), su posición <b>refleja a ese local</b> y no necesariamente a toda la cadena.</p>
+
+  <h2 id="cadena">6. ¿Cómo se calcula el precio de cada cadena?</h2>
+  <ul>
+    <li>Si la cadena tiene <b>varias sucursales</b> con el mismo producto, mostramos el <b>precio típico</b>: la mediana entre sus sucursales.</li>
+    <li>Algunas cadenas cobran <b>distinto según el local</b> (hoy: Carrefour y Changomas). Ahí podés elegir tu sucursal y la página usa ese precio.</li>
+    <li>Si una sucursal no informó un producto hoy, usamos su último dato de <b>hasta 3 días</b> atrás. Si no hay dato reciente, figura “sin dato”.</li>
+  </ul>
+
+  <h2 id="ranking">7. ¿Cómo se arma el ranking?</h2>
+  <ol>
+    <li>Se toman solo los <b>34 productos que informan las 6 cadenas</b>, para no favorecer ni perjudicar a ninguna.</li>
+    <li>Se suma el precio de cada cadena para esos productos y se ordena de menor a mayor.</li>
+  </ol>
+  <div class="ecuacion" role="note" aria-label="Qué significa “más barata”">
+    <p class="ec-t">“Más barata” significa…</p>
+    <div class="ec-fila">
+      <div class="ec-caja ec-m"><b>MÁS BARATA</b></div>
+      <span class="ec-op" aria-hidden="true">=</span>
+      <div class="ec-caja"><b>EN ESTA CANASTA</b><small>los 34 productos que informan las 6 cadenas</small></div>
+      <span class="ec-op" aria-hidden="true">+</span>
+      <div class="ec-caja"><b>ESE DÍA</b><small>según los datos al 20/09/2026</small></div>
+    </div>
+    <p class="ec-no"><b>No significa</b> que sea la más barata: <span>✗ para toda tu compra</span> <span>✗ en todos sus locales</span> <span>✗ con descuentos de tarjeta</span></p>
+  </div>
+  <p>El <b>“ahorro típico”</b> es la mediana, entre los productos de la canasta, de cuánto menos cuesta el más barato respecto del más caro.</p>
+  <p><b>Productos que quedan afuera del ranking</b> (9): son los que alguna cadena no informa en Salta capital. Se muestran igual en la lista de productos, con “sin dato” donde corresponde.</p>
+  <ul><li>Leche En Polvo Desc Fort. La Serenísima x 200 g <span class="no">— no lo informa La Anónima</span></li><li>Yerba Mate Suave Unión 4Flex x 1 kg <span class="no">— no lo informa La Anónima</span></li><li>Yerba Mate C Palo Orig Crol Taragüí 4Flex x 1 kg <span class="no">— no lo informa La Anónima</span></li><li>Té Filtro Diamantado Taragüí x 25 u <span class="no">— no lo informa La Anónima</span></li><li>Azúcar Molida Superior Ledesma x 1 kg <span class="no">— no lo informa La Anónima</span></li><li>Pan Rallado Lucchetti Nutrivit x 500 g <span class="no">— no lo informa La Anónima</span></li><li>Choclo En Granos Amarillo Arcor Lata x 300 g <span class="no">— no lo informa La Anónima</span></li><li>Jabón Liq Ropa P Diluir Powr Delux Skip x 500 cc <span class="no">— no lo informa La Anónima</span></li><li>Papel Higiénico Hs Max Higienol 4 x 80 m <span class="no">— no lo informa La Anónima</span></li></ul>
+
+  <h2 id="variacion">8. Las flechas ▲▼</h2>
+  <p>Muestran cuánto cambió el precio típico de una cadena respecto del último dato de hace entre 3 y 7 días. Solo aparecen si el cambio es de 0,5% o más. Un cambio muy grande puede deberse a un error de carga o a un cambio de presentación del producto, no necesariamente a un aumento real.</p>
+
+  <h2 id="avisos">9. Avisos de usuarios y “verificado en góndola”</h2>
+  <p>Cualquier persona puede avisarnos que vio en la góndola un precio distinto al que mostramos, con una foto de la etiqueta. Funciona así:</p>
+  <ul>
+    <li><b>Nada se publica sin verificarlo.</b> Los avisos los ve solo el administrador, que revisa la foto y la fecha.</li>
+    <li>Un aviso verificado se muestra <b>aparte del dato oficial</b> (nunca lo reemplaza), con su fecha y sucursal, durante <b>14 días</b>, y no entra en el ranking.</li>
+    <li>Es una <b>observación puntual</b> en un local y un día. Puede tratarse de una oferta y <b>no implica ninguna infracción</b> ni una acusación contra la cadena.</li>
+    <li>Podemos descartar o retirar un aviso en cualquier momento.</li>
+  </ul>
+  <p>Si te cobraron en caja más que el precio exhibido, guardá el ticket y presentá el reclamo en <a href="https://consumidorsalta.gob.ar/" rel="noopener">Defensa del Consumidor de Salta</a> o en el <a href="https://www.argentina.gob.ar/iniciar-un-reclamo-ante-defensa-del-consumidor" rel="noopener">reclamo nacional</a>. Canasta Salta no realiza denuncias.</p>
+
+  <h2 id="correcciones">10. Errores, correcciones y pedidos de retiro</h2>
+  <p>Si sos una cadena, un fabricante o cualquier persona y encontrás un dato incorrecto, o querés pedir que retiremos una foto, una mención o un aviso, escribinos a <a href="mailto:ptofocal@gmail.com?subject=Canasta%20Salta%3A%20correcci%C3%B3n">ptofocal@gmail.com</a> indicando producto, cadena, fecha y lo que corresponde corregir.</p>
+  <ul>
+    <li>Revisamos cada pedido y respondemos dentro de los <b>5 días hábiles</b>.</li>
+    <li>Si el error es nuestro, lo corregimos y lo aclaramos.</li>
+    <li>Si el dato erróneo viene de SEPA, además podés avisar al organismo en <a href="mailto:soportesepa@comercio.gob.ar">soportesepa@comercio.gob.ar</a>.</li>
+  </ul>
+
+  <h2 id="terminos">11. Términos de uso</h2>
+  <ol>
+    <li><b>Uso informativo.</b> El contenido es solo informativo. No es una oferta de venta ni asesoramiento de compra, financiero o legal.</li>
+    <li><b>Sin garantías.</b> Los precios los informan las cadenas y pueden cambiar, tener errores o diferir de la góndola. En la medida que la ley lo permita, Canasta Salta no se responsabiliza por decisiones tomadas solo con esta información. Antes de comprar, confirmá el precio en la etiqueta.</li>
+    <li><b>Reutilización.</b> Los datos de precios se rigen por la licencia CC BY 4.0 de SEPA: si los reutilizás, citá la fuente. <b>© 2026 Punto Focal Diseño. Todos los derechos reservados</b> sobre el diseño, el código, los textos, el nombre “Canasta Salta” y el lema “Compará. Elegí mejor.”: no se pueden copiar, reproducir ni reutilizar sin autorización escrita. Los datos de precios son abiertos, pero su fuente es el SEPA y no nuestro trabajo de organización; las fotos de productos y las marcas de terceros pertenecen a sus titulares. Para pedir autorización: ptofocal@gmail.com.</li>
+    <li><b>Formulario de avisos.</b> Solo enviá información verdadera y propia (fotos que hayas sacado vos). No envíes contenido falso, ofensivo o que muestre datos personales de terceros. Podemos descartar cualquier aviso.</li>
+    <li><b>Enlaces externos.</b> Los sitios a los que enlazamos no son nuestros, y no controlamos su contenido.</li>
+    <li><b>Cambios.</b> Podemos actualizar estos términos. La versión y la fecha figuran al comienzo de esta página.</li>
+  </ol>
+
+  <h2 id="marcas">12. Marcas, fotos y créditos</h2>
+  <ul>
+    <li>Los <b>nombres de las cadenas y de los productos</b> son marcas de sus titulares y se usan solo para identificarlos. Canasta Salta <b>no está afiliada ni patrocinada</b> por ellos. Por eso identificamos a las cadenas solo por su nombre, sin logos.</li>
+    <li>Las <b>fotos de productos</b> provienen de <a href="https://world.openfoodfacts.org" rel="noopener">Open Food Facts</a> y su comunidad (licencia CC BY-SA), de los catálogos de tiendas online (imágenes de los fabricantes) y, en algunos casos, fueron aportadas por el proyecto. Algunas fueron <b>retocadas con inteligencia artificial solo para limpiar el fondo</b> o quitar elementos agregados, y un segundo control verifica que el texto del envase (marca, variante y capacidad) no cambie. Se muestran reducidas y pueden no coincidir con el envase actual. <a href="assets/productos/creditos.json">Créditos por producto</a>.</li>
+    <li>Los botones de <b>“Folletos de la semana”</b> son solo enlaces a las páginas oficiales de cada cadena: no copiamos ni mostramos sus folletos. Agregamos <code>utm_source=canastasalta</code> al enlace para que la cadena pueda ver que la visita llegó desde acá.</li>
+    <li>Diseño y desarrollo: <b>Punto Focal Diseño</b>.</li>
+  </ul>
+
+  <h2 id="privacidad">13. Privacidad y datos personales</h2>
+  <h3>Al usar la página</h3>
+  <ul>
+    <li>No hay cuentas ni cookies de seguimiento. Tu <b>canasta</b> y la <b>sucursal</b> que elegís se guardan solo en tu propio dispositivo y no se envían a ningún lado.</li>
+    <li>Si tocás <b>“Usar mi ubicación”</b>, la posición se usa en tu dispositivo para elegir la sucursal más cercana; <b>no se envía ni se guarda</b>.</li>
+    <li>La página carga la tipografía desde <b>Google Fonts</b>, por lo que Google puede ver tu dirección IP al cargarla.</li>
+  </ul>
+  <h3>Al enviar un aviso</h3>
+  <ul>
+    <li><b>Qué guardamos:</b> producto, supermercado, sucursal, precio y fecha que viste, comentario, y —si querés— tu contacto y una foto (reducida en tu teléfono antes de subirse).</li>
+    <li><b>Para qué:</b> únicamente para verificar el precio y corregir la página.</li>
+    <li><b>Quién los ve:</b> solo el administrador del proyecto. No se publican con tu nombre ni contacto y no se comparten con las cadenas.</li>
+    <li><b>Dónde:</b> en un servicio de almacenamiento externo (Supabase), cuyos servidores pueden estar fuera de Argentina. Al recibirse un aviso, se envía al administrador un mail automático (mediante Google) <b>sin ningún dato del aviso</b>.</li>
+    <li><b>Cuánto tiempo:</b> hasta 12 meses, o menos si pedís que los borremos.</li>
+    <li><b>Tus derechos:</b> podés pedir el acceso, la rectificación o la supresión de tus datos escribiendo a <a href="mailto:ptofocal@gmail.com?subject=Canasta%20Salta%3A%20mis%20datos">ptofocal@gmail.com</a>.</li>
+  </ul>
+  <p class="no" style="font-size:.85rem">El titular de los datos personales tiene la facultad de ejercer el derecho de acceso a los mismos en forma gratuita a intervalos no inferiores a seis meses, salvo que se acredite un interés legítimo al efecto conforme lo establecido en el artículo 14, inciso 3 de la Ley N.º 25.326. La Agencia de Acceso a la Información Pública, en su carácter de Órgano de Control de la Ley N.º 25.326, tiene la atribución de atender las denuncias y reclamos que interpongan quienes resulten afectados en sus derechos por incumplimiento de las normas vigentes en materia de protección de datos personales.</p>
+
+  <h2 id="contacto">14. Contacto</h2>
+  <p>Consultas, correcciones, pedidos de retiro o de borrado de datos: <a href="mailto:ptofocal@gmail.com">ptofocal@gmail.com</a>.</p>
+</main>
+
+<footer><div class="wrap">
+  <a href="./">← Volver a la comparación</a> · Un proyecto de Punto Focal Diseño · Datos: <a href="https://datos.produccion.gob.ar/dataset/sepa-precios" rel="noopener">SEPA / Precios Claros</a> (CC BY 4.0)
+</div></footer>
+</body>
+</html>

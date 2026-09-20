@@ -1,0 +1,5 @@
+# Fotos descartadas a mano por mala calidad (una por línea: EAN  # motivo). obtener_fotos.py no las baja.
+7790580146115  # puré de tomate Arcor: mano y fondo oscuro
+7790742625304  # dulce de leche Serenísima: frasco en la mano
+7790580131364  # atún La Campagnola: se ve la tapa de la lata
+7790387800135  # té Taragüí: borrosa e inclinada

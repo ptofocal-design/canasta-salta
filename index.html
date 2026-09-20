@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Canasta Salta · Compará. Elegí mejor.</title>
+<meta name="theme-color" content="#6A0913">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="description" content="Compará los precios de supermercados de Salta capital y comprá donde sale más barato. Datos oficiales de SEPA, actualizados todos los días.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Paleta tomada del logo: bordó, terracota, sol, crema y el verde de la moneda */
+  --brand:#6A0913; --brand-ink:#FFF8F0; --deep:#4A0A13; --terra:#C3582A; --sun:#F7C67B; --sun-ink:#4A1A05;
+  --good:#1B592C; --good-ink:#FFFFFF; --goodbg:#E3F0E4;
+  --bg:#FBF8F2; --hdr:#FDFAF7; --card:#FFFFFF; --ink:#2B2224; --mute:#7A6A66; --line:#EADFD3; --tint:#F7ECE1; --warn:#B23A1B;
+  --hero-a:#F8E6D2; --hero-b:#FBF8F2; --n-bg:var(--sun); --n-ink:var(--sun-ink); --errbg:#FDE8E2; --errink:#8F2A12;
+  --hill-1:rgba(195,88,42,.30); --hill-2:rgba(106,9,19,.20); --hill-3:rgba(106,9,19,.32);
+  --shadow:0 6px 24px rgba(74,10,19,.10); --shadow-s:0 1px 3px rgba(74,10,19,.08);
+  --font:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --brand:#F7C67B; --brand-ink:#3B1A05; --deep:#2E0509; --terra:#D96B29; --sun:#F7C67B; --sun-ink:#4A1A05;
+  --good:#6FD08A; --good-ink:#0B2A17; --goodbg:#1F3A27;
+  --bg:#1A0A0C; --hdr:#2A1215; --card:#2A1215; --ink:#F6EDE2; --mute:#BBA49E; --line:#4A2428; --tint:#3A181C; --warn:#F0925C;
+  --hero-a:#3D0E16; --hero-b:#1A0A0C; --n-bg:var(--deep); --n-ink:#FFFFFF; --errbg:#4A1A12; --errink:#FFB59E;
+  --hill-1:rgba(217,107,41,.28); --hill-2:rgba(247,198,123,.10); --hill-3:rgba(247,198,123,.16);
+  --shadow:none; --shadow-s:none;
+}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--font);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-weight:800;letter-spacing:-.02em;margin:0;line-height:1.12}
+button,input,select{font-family:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.num{font-variant-numeric:tabular-nums}
+.ico{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* barra superior */
+.bar{background:var(--deep);color:#F4DDD2;font-size:.78rem}
+.bar .wrap{display:flex;justify-content:space-between;gap:12px;padding-top:7px;padding-bottom:7px}
+.bar b{color:#fff;font-weight:700}
+.bar .x{display:none}
+.bar .wrap>span:last-child{display:none}
+@media(min-width:480px){.bar .x{display:inline}}
+@media(min-width:640px){.bar .wrap>span:last-child{display:inline}}
+
+/* encabezado pegajoso */
+/* cabecera: el logo es el protagonista; debajo, una barra pegajosa con buscador y canasta */
+.brandbar{background:var(--hdr);border-bottom:1px solid var(--line)}
+.brandbar .wrap{display:flex;align-items:center;justify-content:center;padding-top:14px;padding-bottom:14px}
+@media(min-width:760px){.brandbar .wrap{justify-content:flex-start;padding-top:18px;padding-bottom:18px}}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);flex:none}
+.brand img{height:78px;width:auto;display:block}
+.brand strong{display:block;font-size:1.95rem;font-weight:800;letter-spacing:.005em;line-height:.95;color:var(--brand)}
+.brand small{display:block;font-size:.82rem;color:var(--ink);font-weight:500;letter-spacing:.62em;margin-top:7px;text-indent:.1em}
+.brand em{display:block;font-style:normal;font-size:.8rem;color:var(--mute);font-weight:600;margin-top:7px}
+@media(min-width:760px){.brand img{height:96px}.brand strong{font-size:2.6rem}.brand small{font-size:.98rem}.brand em{font-size:.95rem}}
+.top{position:sticky;top:0;z-index:30;background:var(--hdr);border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(74,10,19,.06)}
+.top .wrap{display:flex;align-items:center;gap:12px;padding-top:9px;padding-bottom:9px}
+.top .mini{display:none;flex:none}
+.top.scrolled .mini{display:block}
+.top .mini img{height:38px;width:auto;display:block}
+.search{flex:1 1 auto;max-width:560px;min-width:0;display:flex;background:var(--bg);border:1.5px solid var(--line);border-radius:14px;overflow:hidden}
+.search input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);padding:12px 14px;font-size:.95rem}
+.search input:focus{outline:none}
+.search:focus-within{border-color:var(--brand)}
+.search span{display:grid;place-items:center;width:46px;background:var(--brand);color:var(--brand-ink)}
+.cart{margin-left:auto;display:flex;align-items:center;gap:8px;background:var(--brand);color:var(--brand-ink);border:0;border-radius:14px;padding:11px 16px;font-weight:700;font-size:.92rem;cursor:pointer}
+.cart .n{background:var(--n-bg);color:var(--n-ink);border-radius:99px;min-width:22px;height:22px;display:grid;place-items:center;font-size:.75rem;font-weight:800;padding:0 6px}
+.cart .t{display:none}
+@media(min-width:520px){.cart .t{display:inline}}
+
+/* hero */
+.hero{background:linear-gradient(180deg,var(--hero-a),var(--hero-b));overflow:hidden;position:relative}
+.hills{position:absolute;left:0;right:0;bottom:0;width:100%;height:120px;pointer-events:none}
+.hills .h1{fill:var(--hill-1)} .hills .h2{fill:var(--hill-2)} .hills .h3{fill:var(--hill-3)}
+@media(min-width:860px){.hills{height:170px}}
+.hero .wrap{display:grid;gap:28px;padding-top:30px;padding-bottom:34px;position:relative;z-index:1}
+@media(min-width:860px){.hero .wrap{grid-template-columns:1.05fr .95fr;align-items:center;gap:40px;padding-top:44px;padding-bottom:50px}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--brand)}
+.hero h1{font-size:clamp(2.2rem,7vw,3.7rem);margin:12px 0 14px}
+.hero h1 em{font-style:normal;color:var(--brand)}
+.hero p.lead{font-size:1.04rem;color:var(--mute);max-width:34em;margin:0 0 22px}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:12px;padding:13px 22px;font-weight:700;font-size:.95rem;text-decoration:none;cursor:pointer;border:1.5px solid var(--brand);transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.p{background:var(--brand);color:var(--brand-ink)}
+.btn.s{background:transparent;color:var(--brand)}
+.btn.y{background:var(--sun);color:var(--sun-ink);border-color:var(--sun)}
+.trust{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;margin-top:26px;font-size:.8rem;font-weight:600}
+@media(min-width:560px){.trust{grid-template-columns:repeat(4,auto);justify-content:start;gap:22px}}
+.trust div{display:flex;align-items:center;gap:8px}
+.trust .ico{color:var(--brand);width:26px;height:26px}
+.trust small{display:block;font-weight:500;color:var(--mute);font-size:.72rem}
+
+/* panel del hero: total de la canasta por cadena */
+.rank{position:relative;background:var(--card);border-radius:22px;padding:22px 20px 18px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.rank h2{font-size:1.1rem}
+.rank .sub{color:var(--mute);font-size:.8rem;margin:2px 0 14px;max-width:calc(100% - 110px)}
+/* sello: deja a la vista que el ranking vale para ESTA canasta y ESE día */
+.sello{display:grid;grid-template-columns:1.5fr 1fr;gap:8px;margin:38px 0 12px}
+.sello>span{display:grid;grid-template-columns:auto 1fr;column-gap:8px;align-items:center;background:var(--tint);border:2px dashed var(--terra);border-radius:12px;padding:8px 10px}
+.sello .ico{grid-row:1 / 3;color:var(--terra);width:24px;height:24px}
+.sello b{font-size:.8rem;font-weight:800;letter-spacing:.05em;color:var(--brand);line-height:1.15}
+.sello small{font-size:.68rem;color:var(--mute);line-height:1.2}
+.sheet .sello{margin:14px 0 8px}
+.rk{display:grid;grid-template-columns:24px 1fr auto;gap:4px 10px;align-items:center;padding:8px 0;border-top:1px solid var(--line);font-size:.92rem}
+.rk .pos{width:24px;height:24px;border-radius:50%;background:var(--tint);color:var(--good);font-weight:800;font-size:.75rem;display:grid;place-items:center}
+.rk.first .pos{background:var(--good);color:var(--good-ink)}
+.rk b{font-weight:800}
+.rk .barra{grid-column:2 / 4;height:6px;background:var(--line);border-radius:6px;overflow:hidden}
+.rk .barra i{display:block;height:100%;background:var(--brand);opacity:.55;border-radius:6px}
+.rk.first .barra i{background:var(--good);opacity:1}
+.rk .mas{color:var(--warn);font-size:.74rem;font-weight:700;margin-left:6px}
+.rk .cn{gap:9px}
+.rk .cn>span:last-child{display:flex;flex-direction:column;align-items:flex-start;gap:2px;line-height:1.2}
+.rk .cn b{white-space:nowrap}
+.rk .mas,.rk .win{margin-left:0!important}
+.rk .win{background:var(--goodbg);color:var(--good);font-size:.68rem;font-weight:800;padding:2px 8px;border-radius:99px;margin-left:6px}
+.badge{position:absolute;top:-26px;right:10px;width:116px;height:116px;padding:0 10px;border-radius:50%;background:var(--sun);color:var(--sun-ink);display:grid;place-content:center;text-align:center;transform:rotate(9deg);box-shadow:0 8px 20px rgba(247,185,36,.4);border:3px dashed rgba(58,42,0,.35);outline:4px solid var(--sun);outline-offset:-1px}
+.badge small{font-size:.58rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;line-height:1.1}
+.badge b{font-size:2rem;font-weight:800;line-height:1;letter-spacing:-.04em}
+.badge span{font-size:.56rem;font-weight:700;line-height:1.1}
+
+/* secciones */
+section{padding:30px 0 6px}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:4px 12px;margin-bottom:14px;flex-wrap:wrap}
+.sec-h h2{font-size:1.35rem;display:flex;align-items:center;gap:8px}
+.sec-h .note{color:var(--mute);font-size:.8rem}
+
+/* rubros */
+.cats{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none;scroll-snap-type:x proximity}
+.cats::-webkit-scrollbar{display:none}
+@media(min-width:900px){.cats{display:grid;grid-template-columns:repeat(8,1fr);overflow:visible}}
+.cat{flex:none;width:96px;scroll-snap-align:start;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:12px 6px 10px;text-align:center;cursor:pointer;color:var(--ink);box-shadow:var(--shadow-s);transition:transform .15s,border-color .15s}
+@media(min-width:900px){.cat{width:auto}}
+.cat:hover{transform:translateY(-2px);border-color:var(--brand)}
+.cat[aria-pressed=true]{border-color:var(--brand);background:var(--tint);box-shadow:0 0 0 2px var(--brand) inset}
+.cat .e{display:grid;place-items:center;width:52px;height:52px;margin:0 auto 6px;border-radius:50%;background:var(--tint);font-size:1.7rem}
+.cat[aria-pressed=true] .e{background:var(--card)}
+.cat b{display:block;font-size:.78rem;font-weight:700;line-height:1.2}
+.cat small{color:var(--mute);font-size:.68rem}
+
+/* folletos */
+.foll{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:760px){.foll{grid-template-columns:repeat(3,1fr);gap:12px}}
+.fol{display:flex;flex-direction:column;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow-s);transition:transform .12s,border-color .12s}
+.fol:hover{transform:translateY(-2px);border-color:var(--brand)}
+.fol strong{font-size:1.05rem;font-weight:800;letter-spacing:-.01em}
+.fol small{color:var(--mute);font-size:.72rem;font-weight:600}
+.fol em{font-style:normal;color:var(--brand);font-weight:800;font-size:.8rem;margin-top:4px}
+/* banners */
+.banners{display:grid;gap:14px;padding-top:6px}
+@media(min-width:860px){.banners{grid-template-columns:1.25fr 1fr}}
+.ban{border-radius:22px;padding:24px 22px;position:relative;overflow:hidden}
+.ban.dark{background:var(--deep);color:#fff}
+.ban.dark:after{content:"";position:absolute;right:-16px;bottom:-26px;width:112px;height:112px;background:url("assets/logo-oscuro.png") center/contain no-repeat;transform:rotate(-7deg)}
+.ban.dark h3{font-size:1.6rem;max-width:11em}
+@media(min-width:560px){.ban.dark:after{width:150px;height:150px;right:-14px;bottom:-22px}}
+.ban.dark h3 em{font-style:normal;color:var(--sun)}
+.ban.dark p{color:#F1D9CF;max-width:24em;margin:8px 0 16px;font-size:.92rem}
+.ban.light{background:var(--tint);border:1px solid var(--line)}
+.ban.light h3{font-size:1.25rem}
+.ban.light p{color:var(--mute);font-size:.9rem;margin:6px 0 12px}
+.suc{display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center}
+.suc .btn{padding:10px 16px;font-size:.86rem}
+.suc .sub{width:100%;font-size:.8rem;color:var(--mute);line-height:1.4}
+.suc small{font-size:.72rem}
+button.link{background:none;border:0;color:var(--mute);font-size:.85rem;cursor:pointer;padding:6px 0;text-decoration:underline}
+
+/* mayores diferencias */
+.deals{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 14px;scrollbar-width:none;scroll-snap-type:x proximity}
+.deals::-webkit-scrollbar{display:none}
+@media(min-width:900px){.deals{display:grid;grid-template-columns:repeat(6,1fr);overflow:visible}}
+.deal{flex:none;width:158px;scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;position:relative;display:flex;flex-direction:column;box-shadow:var(--shadow-s)}
+@media(min-width:900px){.deal{width:auto}}
+.deal .off{position:absolute;top:10px;left:10px;background:var(--good);color:var(--good-ink);font-weight:800;font-size:.72rem;padding:3px 8px;border-radius:8px}
+.deal .e{height:74px;display:grid;place-items:center;font-size:2.6rem}
+.deal .e.ph{height:92px;margin-top:22px;border-radius:12px}
+.deal .nm{font-weight:700;font-size:.84rem;line-height:1.25;min-height:2.5em;margin-top:2px}
+.deal .pz{margin-top:6px;font-weight:800;font-size:1.15rem;color:var(--good)}
+.deal .pz s{font-weight:500;font-size:.75rem;color:var(--mute);margin-left:4px}
+.deal .en{font-size:.72rem;color:var(--mute);margin-bottom:8px;flex:1}
+.deal .en b{color:var(--good)}
+
+/* lista de productos */
+.grid{display:grid;gap:12px;align-items:start}
+@media(min-width:900px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow-s)}
+.ctop{display:flex;gap:12px;align-items:flex-start}
+.ctop .e{flex:none;width:52px;height:52px;border-radius:14px;background:var(--tint);display:grid;place-items:center;font-size:1.7rem}
+.ctop .e.ph{width:68px;height:68px}
+@media(min-width:760px){.ctop .e.ph{width:96px;height:96px;padding:5px}}
+/* fotos de productos: marco blanco uniforme (las fotos son de la comunidad y varían) */
+.e.ph{background:#fff;border:1px solid var(--line);overflow:hidden;padding:3px}
+.e.ph img{width:100%;height:100%;object-fit:contain;display:block}
+/* lupa: al pasar el cursor, la foto se muestra grande (solo con mouse) */
+#lupa{position:fixed;z-index:60;pointer-events:none;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 40px rgba(60,20,20,.28);padding:10px;opacity:0;transform:scale(.96);transition:opacity .12s,transform .12s;display:none}
+#lupa.on{opacity:1;transform:none}
+#lupa img{display:block;width:100%;height:100%;object-fit:contain}
+@media(hover:hover){.e.ph{cursor:zoom-in}}
+/* celular: al tocar la foto se abre en grande */
+#vista{position:fixed;inset:0;z-index:70;background:rgba(30,10,10,.72);display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:20px;-webkit-tap-highlight-color:transparent}
+#vista.on{display:flex}
+#vista .mk{background:#fff;border-radius:18px;padding:12px;max-width:min(92vw,440px);max-height:74vh;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+#vista img{display:block;max-width:100%;max-height:calc(74vh - 24px);object-fit:contain;margin:0 auto}
+#vista .tt{color:#fff;font-weight:700;text-align:center;font-size:.95rem;max-width:92vw}
+#vista .x{position:absolute;top:14px;right:14px;width:42px;height:42px;border-radius:50%;border:0;background:#fff;color:var(--brand);font-size:1.5rem;font-weight:800;line-height:1;cursor:pointer}
+/* nombres de las cadenas: solo tipografía (sin logos) */
+.cn{display:flex;align-items:center;gap:8px;min-width:0}
+.cn>span:last-child{min-width:0}
+.pr .cn{font-weight:800;letter-spacing:.01em}
+.pr .cn small{font-weight:500;letter-spacing:0}
+.pr .cn>span:last-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rk .cn b{font-size:1.04rem;font-weight:800;letter-spacing:.01em}
+.tot .cn>span,.tabla thead th b{font-weight:800}
+.pr b{white-space:nowrap}
+@media(max-width:430px){.pr,.pr.na{grid-template-columns:1fr auto}.pr .bar2{display:none}}
+.ctop .who{flex:1;min-width:0}
+.ci{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 4px}
+.ci .cap{background:var(--brand);color:var(--brand-ink);font-weight:800;font-size:.84rem;padding:2px 10px;border-radius:8px;letter-spacing:.01em;white-space:nowrap}
+.ci .var{background:var(--tint);color:var(--ink);font-weight:700;font-size:.72rem;padding:3px 9px;border-radius:8px;border:1px solid var(--line)}
+.deal .ci{margin:3px 0 4px;gap:4px}
+.deal .ci .cap{font-size:.74rem;padding:1px 8px}
+.deal .ci .var{font-size:.62rem;padding:2px 6px}
+.name{font-weight:700;line-height:1.25}
+.rubro{color:var(--mute);font-size:.76rem}
+.best{text-align:right;white-space:nowrap}
+.price{font-size:1.3rem;font-weight:800;color:var(--good);line-height:1.1}
+.chain{display:inline-block;font-size:.7rem;background:var(--goodbg);color:var(--good);padding:2px 9px;border-radius:99px;font-weight:700;margin-top:3px}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px}
+button.add{border:1.5px solid var(--brand);color:var(--brand);background:none;padding:8px 14px;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;white-space:nowrap}
+button.add[aria-pressed=true],button.add.on{background:var(--brand);color:var(--brand-ink)}
+.prices{margin-top:8px;border-top:1px dashed var(--line);padding-top:8px}
+.pr{display:grid;grid-template-columns:150px 1fr auto;gap:10px;align-items:center;font-size:.88rem;padding:3px 0}
+.pr.na{grid-template-columns:150px 1fr;opacity:.7}
+.pr small{display:block;color:var(--mute);font-size:.66rem;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar2{height:8px;border-radius:6px;background:var(--line);overflow:hidden}
+.bar2 i{display:block;height:100%;background:var(--brand);opacity:.5;border-radius:6px}
+.pr.min .bar2 i{opacity:1;background:var(--good)}
+.pr.min b{color:var(--good)}
+.pct{color:var(--warn);font-size:.74rem;margin-left:6px;font-weight:600}
+.chg{font-size:.7rem;margin-left:6px;font-weight:700}
+.chg.up{color:var(--warn)} .chg.down{color:var(--good)}
+.rng{display:flex;justify-content:flex-end;gap:6px;align-items:baseline;font-size:.76rem;color:var(--mute);padding:0 0 2px}
+.rng button.link{font-size:.76rem;padding:2px 0}
+.brl{margin:2px 0 8px 8px;border-left:2px solid var(--line);padding-left:10px}
+.br{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.82rem;padding:3px 0}
+.br button.pick{background:none;border:0;color:var(--ink);text-align:left;cursor:pointer;padding:2px 0;font-size:.82rem}
+.br button.pick[aria-pressed=true]{font-weight:800;color:var(--brand)}
+.br a{text-decoration:none}
+.br b.lo{color:var(--good)}
+.empty{color:var(--mute);text-align:center;padding:36px 0;grid-column:1/-1}
+/* aviso de promos */
+.promo{display:flex;gap:10px;align-items:flex-start;background:var(--tint);border:1.5px dashed var(--terra);border-radius:14px;padding:12px 14px;font-size:.84rem;line-height:1.45;margin:18px 0 0}
+.promo .ico{color:var(--terra);width:22px;height:22px;margin-top:1px}
+.promo b{color:var(--brand);font-weight:800}
+.promo.mini{font-size:.74rem;padding:8px 10px;margin:12px 0 0;gap:8px;border-width:1px}
+.promo.mini .ico{width:18px;height:18px}
+/* detalle del ranking */
+.rk-btn{width:100%;justify-content:center;margin-top:14px;padding:11px 16px;font-size:.88rem}
+.sheet.wide{max-width:1000px}
+.tabla{overflow:auto;max-height:54vh;border:1px solid var(--line);border-radius:14px;background:var(--card);margin:12px 0}
+.tabla table{border-collapse:separate;border-spacing:0;width:100%;font-size:.82rem}
+.tabla th,.tabla td{padding:8px 7px;border-bottom:1px solid var(--line);white-space:nowrap;text-align:right}
+@media(min-width:640px){.tabla th,.tabla td{padding:9px 11px}}
+.tabla thead th{position:sticky;top:0;background:var(--tint);z-index:2;font-size:.74rem;font-weight:800;vertical-align:bottom}
+.tabla tbody th,.tabla thead th:first-child,.tabla tfoot th{position:sticky;left:0;text-align:left;background:var(--card);z-index:1;font-weight:600;min-width:112px;max-width:140px;white-space:normal;font-size:.76rem;line-height:1.25}
+@media(min-width:640px){.tabla tbody th,.tabla thead th:first-child,.tabla tfoot th{min-width:190px;max-width:260px;font-size:.82rem}}
+.tabla thead th:first-child{z-index:3;background:var(--tint)}
+.tabla td.lo{color:var(--good);font-weight:800;background:var(--goodbg)}
+.tabla td.na{color:var(--mute)}
+.tabla tfoot th,.tabla tfoot td{position:sticky;bottom:0;background:var(--tint);font-weight:800;border-bottom:0;z-index:2}
+.tabla tfoot th{left:0;z-index:3}
+.tabla thead th:not(:first-child){white-space:normal;min-width:66px}
+.tabla thead small{display:block;font-weight:600;color:var(--mute);font-size:.66rem}
+.fuera{font-size:.8rem;color:var(--mute);margin-top:6px}
+.fuera summary{cursor:pointer;color:var(--ink);font-weight:700}
+.fuera li{margin:3px 0}
+
+/* por qué confiar */
+.why{display:grid;gap:12px}
+@media(min-width:760px){.why{grid-template-columns:repeat(4,1fr)}}
+.w{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 16px;box-shadow:var(--shadow-s)}
+.w .ico{width:34px;height:34px;color:var(--brand);margin-bottom:8px}
+.w h3{font-size:1rem;margin-bottom:4px}
+.w p{margin:0;color:var(--mute);font-size:.85rem}
+
+/* pie */
+footer{background:var(--deep);color:#F1DED3;margin-top:40px;padding:30px 0 26px;font-size:.84rem}
+footer .wrap{display:grid;gap:18px}
+@media(min-width:760px){footer .wrap{grid-template-columns:1.2fr 1fr 1fr}}
+footer .brand{color:#fff}
+footer h4{margin:0 0 6px;color:#fff;font-size:.86rem}
+footer a{color:#F1DED3}
+footer p{margin:0 0 6px}
+.credito{display:flex;align-items:center;gap:12px;margin-top:12px;font-size:.76rem;color:#D9B7AC;line-height:1.35}
+.credito img{width:72px;height:72px;border-radius:14px;flex:none;border:1px solid rgba(255,255,255,.14)}
+.credito b{color:#fff;font-size:.86rem}
+footer .fine{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);padding-top:14px;font-size:.76rem;color:#D9B7AC}
+
+/* paneles */
+.panel{position:fixed;inset:0;background:rgba(6,25,15,.55);display:none;z-index:50;align-items:flex-end}
+.panel.open{display:flex}
+.sheet{background:var(--bg);width:100%;max-width:680px;margin:0 auto;border-radius:22px 22px 0 0;padding:20px 18px 26px;max-height:88vh;overflow:auto}
+.sheet h2{font-size:1.25rem;margin-bottom:4px}
+.sheet .sub{color:var(--mute);font-size:.86rem}
+.sheet label{display:block;font-weight:700;margin:14px 0 4px}
+.sheet select{width:100%;padding:12px 10px;border:1.5px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font-size:.92rem}
+.tot{display:flex;justify-content:space-between;gap:10px;padding:11px 14px;background:var(--card);border:1px solid var(--line);border-radius:14px;margin:8px 0}
+.tot.win{border-color:var(--good);background:var(--goodbg)}
+.mix{background:var(--deep);color:#fff;border-radius:16px;padding:14px;margin:12px 0}
+.mix small{color:#F1D9CF;display:block;margin-top:2px;font-size:.82rem}
+.li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+.sheet .vacio{text-align:center;padding:26px 0;color:var(--mute)}
+/* formulario de avisos */
+.sheet input[type=text],.sheet input[type=date],.sheet input[type=file],.sheet textarea{width:100%;padding:11px 10px;border:1.5px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font-size:.92rem}
+.sheet textarea{min-height:76px;resize:vertical}
+.sheet .hint{font-size:.76rem;color:var(--mute);margin:4px 0 0;line-height:1.35}
+.sheet .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.sheet label.consent{display:flex;gap:10px;align-items:flex-start;margin:16px 0 4px;font-weight:500;font-size:.84rem}
+.sheet label.consent input{margin-top:3px;width:18px;height:18px;flex:none}
+.sheet details{font-size:.8rem;color:var(--mute);margin:6px 0}
+.sheet details summary{cursor:pointer;font-weight:700;color:var(--ink)}
+.sheet .ok,.sheet .err{border-radius:12px;padding:12px 14px;font-size:.88rem;margin:12px 0}
+.sheet .ok{background:var(--goodbg);color:var(--good)}
+.sheet .err{background:var(--errbg);color:var(--errink)}
+.sheet .promo a{color:var(--brand);font-weight:700}
+/* capa "verificado en góndola" */
+.vf{font-size:.76rem;line-height:1.35;color:var(--good);background:var(--goodbg);border-radius:8px;padding:5px 9px;margin:1px 0 5px}
+.vf b{font-weight:800}
+.vf small{display:block;color:var(--mute);font-size:.7rem}
+.vchip{display:inline-block;font-size:.66rem;font-weight:800;color:var(--good);background:var(--goodbg);padding:1px 8px;border-radius:99px;margin-top:3px}
+
+
+</style>
+<meta name="author" content="Punto Focal Diseño">
+<meta name="copyright" content="© 2026 Punto Focal Diseño. Todos los derechos reservados">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-sync" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14 4l2-2"/><path d="M20 20v-5h-5"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.800 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8L3 12z"/><circle cx="7.5" cy="8.5" r="1.3"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2.5l2.3 11h9.7l2-8H7"/><circle cx="9.5" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"/><path d="M5 19c3-4 6-7 10-9"/></symbol>
+</svg>
+
+<div class="bar"><div class="wrap">
+  <span><b>Precios oficiales de SEPA</b><span class="x"> · datos al 20/09/2026</span></span>
+  <span>Gratis y sin registro</span>
+</div></div>
+
+<div class="brandbar"><div class="wrap">
+  <a class="brand" href="#" aria-label="Canasta Salta, inicio">
+    <picture><source media="(prefers-color-scheme: dark)" srcset="assets/marca-oscuro.png"><img src="assets/marca-claro.png" alt="" width="84" height="78"></picture>
+    <span><strong>CANASTA</strong><small>SALTA</small><em>Compará. Elegí mejor.</em></span>
+  </a>
+</div></div>
+
+<header class="top" id="top"><div class="wrap">
+  <a class="mini" href="#" aria-label="Canasta Salta, inicio"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/marca-oscuro.png"><img src="assets/marca-claro.png" alt="" width="41" height="38"></picture></a>
+  <label class="search" aria-label="Buscar producto">
+    <input type="search" id="q" placeholder="Buscar yerba, aceite, leche…" autocomplete="off">
+    <span aria-hidden="true"><svg class="ico"><use href="#i-search"/></svg></span>
+  </label>
+  <button class="cart" id="bopen" aria-label="Ver mi canasta">
+    <svg class="ico"><use href="#i-cart"/></svg><span class="t">Mi canasta</span><span class="n" id="bcount">0</span>
+  </button>
+</div></header>
+
+<main>
+<div class="hero">
+<svg class="hills" viewBox="0 0 1200 170" preserveAspectRatio="none" aria-hidden="true"><path class="h1" d="M0 170V95C90 60 150 40 230 62c70 20 110 55 190 40C520 84 560 34 650 30c90-3 130 40 210 62 90 24 150-12 230-40 40-14 80-18 110-12v130z"/><path class="h2" d="M0 170v-52c80-30 150-46 240-30 80 15 130 48 220 38 100-11 150-58 250-62 90-3 150 30 230 42 90 14 170-6 260-30v94z"/><path class="h3" d="M0 170v-22c110-22 190-8 290 6 100 14 170 22 270 8 110-15 190-46 300-40 120 6 200 34 340 48v0z"/></svg>
+<div class="wrap">
+  <div>
+    <span class="eyebrow"><svg class="ico" style="width:18px;height:18px"><use href="#i-leaf"/></svg>Salta capital · precios de supermercados</span>
+    <h1>Comprá donde<br><em>sale más barato.</em></h1>
+    <p class="lead" id="lead"></p>
+    <div class="btns">
+      <a class="btn p" href="#productos">Ver productos</a>
+      <a class="btn s" href="metodologia.html">Metodología</a>
+    </div>
+    <div class="trust">
+      <div><svg class="ico"><use href="#i-shield"/></svg><span>Datos oficiales<small>Fuente: SEPA</small></span></div>
+      <div><svg class="ico"><use href="#i-sync"/></svg><span>Cada día<small>Se actualiza sola</small></span></div>
+      <div><svg class="ico"><use href="#i-pin"/></svg><span>Por sucursal<small>Elegí tu local</small></span></div>
+      <div><svg class="ico"><use href="#i-tag"/></svg><span>Gratis<small>Sin registro</small></span></div>
+    </div>
+  </div>
+  <div class="rank" id="rank" aria-live="polite"></div>
+</div></div>
+
+<div class="wrap">
+  <div class="promo" role="note"><svg class="ico"><use href="#i-tag"/></svg><span><b>Los precios pueden variar según las PROMOS de cada súper.</b> Mostramos el precio de lista y, cuando la cadena la informa, su promo general. No incluye descuentos con tarjeta, para jubilados ni otras ofertas del local. <a href="metodologia.html#precio">¿Cómo se calcula?</a></span></div>
+  <section aria-labelledby="h-rubros">
+    <div class="sec-h"><h2 id="h-rubros">Comprar por rubro</h2></div>
+    <div class="cats" id="cats" role="group" aria-label="Rubros"></div>
+  </section>
+
+  <div class="banners">
+    <div class="ban dark">
+      <h3>Armá tu canasta y mirá <em>dónde conviene</em></h3>
+      <p>Sumá productos con “+ Agregar” y te decimos en qué súper sale más barato el total, y cuánto ahorrás si repartís la compra.</p>
+      <a class="btn y" href="#productos">Empezar</a>
+    </div>
+    <div class="ban light">
+      <h3>El precio depende del local</h3>
+      <p>Carrefour y Changomas cobran distinto según la sucursal. Elegí la tuya o dejá que la página busque la más cercana.</p>
+      <div class="suc" id="suc"></div>
+    </div>
+  </div>
+
+  <section aria-labelledby="h-dif" id="difs">
+    <div class="sec-h"><h2 id="h-dif">Mayores diferencias hoy</h2><span class="note">Precio más bajo vs. más alto</span></div>
+    <div class="deals" id="deals"></div>
+    <p class="note" style="color:var(--mute);font-size:.78rem;margin:0">Una diferencia enorme puede ser un error de carga de la cadena: confirmalo en la góndola.</p>
+  </section>
+
+  <section id="folletos" aria-labelledby="h-foll">
+    <div class="sec-h"><h2 id="h-foll">Folletos de la semana</h2><span class="note">Directo a la página oficial de cada cadena</span></div>
+    <div class="foll" id="foll"></div>
+    <p class="note" style="color:var(--mute);font-size:.78rem;margin:0">Te llevamos al sitio de cada cadena, que es quien publica sus ofertas. Pueden variar según la sucursal y algunas no rigen en Salta. Canasta Salta no está afiliada a las cadenas.</p>
+  </section>
+
+  <section id="productos" aria-labelledby="h-prod">
+    <div class="sec-h"><h2 id="h-prod">Todos los productos</h2><span class="note" id="cuenta"></span></div>
+    <div class="grid" id="list"></div>
+  </section>
+
+  <section id="como" aria-labelledby="h-como">
+    <div class="sec-h"><h2 id="h-como">¿Cómo funciona y qué tenés que saber?</h2></div>
+    <div class="why">
+      <div class="w"><svg class="ico"><use href="#i-shield"/></svg><h3>Fuente oficial</h3><p>Son los precios que las cadenas informan al Estado (SEPA / Precios Claros), no los que publican en folletos.</p></div>
+      <div class="w"><svg class="ico"><use href="#i-sync"/></svg><h3>Al día</h3><p>Datos al 20/09/2026. Se actualiza todos los días. <b>▲▼</b> muestra cuánto cambió un precio contra hace una semana (9 días de historial).</p></div>
+      <div class="w"><svg class="ico"><use href="#i-pin"/></svg><h3>Por sucursal</h3><p>Sin elegir local, se muestra el precio típico de cada cadena (la mediana de sus sucursales).</p></div>
+      <div class="w"><svg class="ico"><use href="#i-tag"/></svg><h3>Límites claros</h3><p>Precio de lista más la promo general si la hay. No incluye descuentos con tarjeta, ni carnes, verduras o pan. <b>✓ Verificado en góndola</b> es un precio que vimos con foto de la etiqueta en un local y un día puntual: puede ser una oferta y no implica una infracción.</p></div>
+    </div>
+  </section>
+</div>
+</main>
+
+<footer><div class="wrap">
+  <div>
+    <img src="assets/logo-oscuro.png" alt="Canasta Salta. Compará. Elegí mejor." width="120" height="120" style="width:120px;height:120px;display:block">
+    <p style="margin-top:10px">Compará los supermercados de Salta capital con datos abiertos.</p>
+  </div>
+  <div><h4>Fuente</h4>
+    <p><a href="https://datos.produccion.gob.ar/dataset/sepa-precios" rel="noopener">Precios Claros · Base SEPA</a></p>
+    <p>Licencia CC-BY 4.0</p></div>
+  <div><h4>Proyecto</h4>
+    <p><a href="metodologia.html">Metodología y términos</a></p>
+    <p>© 2026 Punto Focal Diseño. Todos los derechos reservados sobre el diseño, el código y los textos.</p>
+    <p id="footaviso" hidden><button class="link" data-av="" style="color:#F1DED3;padding:0">¿Viste un precio distinto? Avisanos</button></p>
+    <p>Sin publicidad ni registro.</p>
+    <div class="credito"><img src="assets/marca/puntofocal-oscuro.png" alt="Punto Focal Diseño" width="72" height="72" loading="lazy"><span>Un proyecto de<br><b>Punto Focal Diseño</b></span></div></div>
+  <p class="fine">Los precios los informan las propias cadenas y pueden variar según las PROMOS de cada súper y diferir de la góndola. Precio de lista con la promoción general si la informan; no incluye descuentos con tarjeta. 6 cadenas · datos al 20/09/2026. Fotos: <a href="https://world.openfoodfacts.org" rel="noopener">Open Food Facts</a> y su comunidad (licencia CC BY-SA) fotos de catálogos de tiendas online (imágenes de los fabricantes) y algunas aportadas por el proyecto; algunas fueron retocadas con inteligencia artificial solo para limpiar el fondo, verificando que el texto del envase no cambie (<a href="assets/productos/creditos.json">créditos por producto</a>), reducidas de tamaño; pueden no coincidir con el envase actual. Los nombres de las cadenas y de los productos son marcas de sus titulares y se usan solo para identificarlos: Canasta Salta no está afiliada ni patrocinada por ellas.</p>
+</div></footer>
+
+<div class="panel" id="panel" role="dialog" aria-modal="true" aria-label="Detalle">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script src="config-avisos.js" async onload="window.render && render(); window.cargarVerificados && cargarVerificados()"></script>
+<script>
+const DATA = [{"ean":"7793913012996","rubro":"Lácteos","nombre":"Leche Descremada Uat Tregar x 1 L","p":{"Changomas":2609.0,"Carrefour":2550.0,"Jumbo":2550.0,"La Anónima":1590.0,"DIA":2550.0,"Vea":2500.0},"prev":{"Changomas":2609.0,"Carrefour":2550.0,"Jumbo":2550.0,"La Anónima":1590.0,"DIA":2550.0,"Vea":2500.0},"b":{"Changomas":{"1011":2609.0,"1075":2609.0},"Carrefour":{"175":2550.0}},"nc":"Leche descremada Tregar","m":"Tregar","c":"1 L","v":["Descremada","UAT"],"f":"72135e0a"},{"ean":"7790742348005","rubro":"Lácteos","nombre":"Leche Desc 1% Bienestar Serenísima x 1 L","p":{"Changomas":2289.0,"Carrefour":2050.0,"Jumbo":2130.0,"La Anónima":2147.0,"DIA":2129.0,"Vea":2130.0},"prev":{"Changomas":2289.0,"Carrefour":2050.0,"Jumbo":2130.0,"La Anónima":2147.0,"DIA":2129.0,"Vea":2130.0},"b":{"Changomas":{"1011":2289.0,"1075":2289.0},"Carrefour":{"171":2050.0,"175":2050.0}},"nc":"Leche Bienestar La Serenísima","m":"La Serenísima","c":"1 L","v":["Bienestar","Descremada 1%"],"f":"e3965765"},{"ean":"7790742436207","rubro":"Lácteos","nombre":"Leche En Polvo Desc Fort. La Serenísima x 200 g","p":{"Changomas":4394.0,"Carrefour":3654.0,"Jumbo":4300.0,"DIA":4170.0,"Vea":3599.0},"prev":{"Changomas":4199.0,"Carrefour":3654.0,"Jumbo":4300.0,"DIA":4170.0,"Vea":3599.0},"b":{"Changomas":{"1011":4279.0,"1075":4509.0},"Carrefour":{"171":3709.0,"175":3599.0}},"nc":"Leche en polvo La Serenísima","m":"La Serenísima","c":"200 g","v":["En polvo","Descremada","Fortificada"],"f":"2eca9b68"},{"ean":"7790742625304","rubro":"Almacén","nombre":"Dulce De Leche Clásico La Serenísima x 400 g","p":{"Changomas":4199.0,"Carrefour":4084.6150000000002,"Jumbo":4300.0,"La Anónima":3150.0,"DIA":3860.0,"Vea":4190.0},"prev":{"Changomas":4199.0,"Carrefour":4190.0,"Jumbo":4200.0,"La Anónima":3150.0,"DIA":3860.0,"Vea":4190.0},"b":{"Changomas":{"1011":4199.0,"1075":4199.0},"Carrefour":{"171":4130.77,"175":4038.46}},"nc":"Dulce de leche La Serenísima","m":"La Serenísima","c":"400 g","v":["Clásico"],"f":"8c0ba6b8"},{"ean":"7793940054006","rubro":"Lácteos","nombre":"Manteca Extra La Serenísima x 200 g","p":{"Changomas":5059.0,"Carrefour":4764.0,"Jumbo":4736.0,"La Anónima":4800.0,"DIA":3750.0,"Vea":4690.0},"prev":{"Changomas":5059.0,"Carrefour":4764.0,"Jumbo":4928.0,"La Anónima":4700.0,"DIA":5360.0,"Vea":5390.0},"b":{"Changomas":{"1011":4759.0,"1075":5359.0},"Carrefour":{"171":4819.0,"175":4709.0}},"nc":"Manteca La Serenísima","m":"La Serenísima","c":"200 g","v":["Extra"],"f":"5bb9f868"},{"ean":"7791337061361","rubro":"Lácteos","nombre":"Queso Crema Clásico Casancrem x 290 g","p":{"Changomas":6279.0,"Carrefour":5690.0,"Jumbo":6515.0,"La Anónima":4200.0,"DIA":6199.0,"Vea":6290.0},"prev":{"Changomas":6030.0,"Carrefour":5559.5,"Jumbo":5690.0,"La Anónima":4200.0,"DIA":5765.0,"Vea":5490.0},"b":{"Changomas":{"1011":6279.0,"1075":6279.0},"Carrefour":{"171":5690.0,"175":5690.0}},"nc":"Queso crema Casancrem","m":"Casancrem","c":"290 g","v":["Clásico"],"f":"53596139"},{"ean":"7792710006436","rubro":"Yerba/Infusiones","nombre":"Yerba Mate Suave Amanda x 500 g","p":{"Changomas":3179.0,"Carrefour":2537.0,"Jumbo":3100.0,"La Anónima":2950.0,"DIA":2150.0,"Vea":2499.0},"prev":{"Changomas":3179.0,"Carrefour":2537.0,"Jumbo":2900.0,"La Anónima":2950.0,"DIA":2150.0,"Vea":2499.0},"b":{"Changomas":{"1011":3179.0,"1075":3179.0},"Carrefour":{"171":2575.0,"175":2499.0}},"nc":"Yerba mate Amanda","m":"Amanda","c":"500 g","v":["Suave"],"f":"a75160d8"},{"ean":"7790387014617","rubro":"Yerba/Infusiones","nombre":"Yerba Mate Suave Unión 4Flex x 1 kg","p":{"Changomas":5859.0,"Carrefour":4659.5,"Jumbo":5450.0,"DIA":5678.0,"Vea":4590.0},"prev":{"Changomas":5859.0,"Carrefour":4659.5,"Jumbo":5450.0,"DIA":5678.0,"Vea":4590.0},"b":{"Changomas":{"1011":5859.0,"1075":5859.0},"Carrefour":{"171":4729.0,"175":4590.0}},"nc":"Yerba mate Unión","m":"Unión","c":"1 kg","v":["Suave","4Flex"],"f":"2ee254ab"},{"ean":"7790387013610","rubro":"Yerba/Infusiones","nombre":"Yerba Mate C Palo Orig Crol Taragüí 4Flex x 1 kg","p":{"Changomas":5859.0,"Carrefour":4557.5,"Jumbo":5400.0,"DIA":5678.0,"Vea":4490.0},"prev":{"Changomas":5859.0,"Carrefour":4557.5,"Jumbo":5400.0,"DIA":5678.0,"Vea":4490.0},"b":{"Changomas":{"1011":5859.0,"1075":5859.0},"Carrefour":{"171":4625.0,"175":4490.0}},"nc":"Yerba mate Taragüí","m":"Taragüí","c":"1 kg","v":["Con palo","4Flex"],"f":"e3b64d9f"},{"ean":"7790387800135","rubro":"Yerba/Infusiones","nombre":"Té Filtro Diamantado Taragüí x 25 u","p":{"Changomas":1369.0,"Carrefour":1190.0,"Jumbo":1400.0,"DIA":1338.0,"Vea":1390.0},"prev":{"Changomas":1369.0,"Carrefour":1119.5,"Jumbo":1400.0,"DIA":1338.0,"Vea":1390.0},"b":{"Changomas":{"1011":1369.0,"1075":1369.0},"Carrefour":{"171":1080.0,"175":1300.0}},"nc":"Té en saquitos Taragüí","m":"Taragüí","c":"25 u.","v":["Diamantado"],"f":"9e568b46"},{"ean":"7790480008261","rubro":"Yerba/Infusiones","nombre":"Té En Saquitos Green Hills x 50 u","p":{"Changomas":3014.0,"Carrefour":2994.0,"Jumbo":2979.0,"La Anónima":2500.0,"DIA":2990.0,"Vea":3250.0},"prev":{"Changomas":3009.0,"Carrefour":2994.0,"Jumbo":2979.0,"La Anónima":2500.0,"DIA":2990.0,"Vea":3250.0},"b":{"Changomas":{"1011":3019.0,"1075":3009.0},"Carrefour":{"171":3039.0,"175":2949.0}},"nc":"Té en saquitos Green Hills","m":"Green Hills","c":"50 u.","v":[],"f":"024585ff"},{"ean":"7790170902008","rubro":"Yerba/Infusiones","nombre":"Café Molido Clásico La Morenita x 500 g","p":{"Changomas":14734.0,"Carrefour":9351.325,"Jumbo":14300.0,"La Anónima":13850.0,"DIA":9200.0,"Vea":11990.0},"prev":{"Changomas":14419.0,"Carrefour":9379.5,"Jumbo":14300.0,"La Anónima":13850.0,"DIA":9200.0,"Vea":10490.0},"b":{"Changomas":{"1011":15049.0,"1075":14419.0},"Carrefour":{"171":8133.65,"175":10569.0}},"nc":"Café molido La Morenita","m":"La Morenita","c":"500 g","v":["Clásico"],"f":"cd4b41c4"},{"ean":"7790150006320","rubro":"Yerba/Infusiones","nombre":"Café Molido Clásico La Virginia x 250 g","p":{"Changomas":7439.0,"Carrefour":5517.5,"Jumbo":6650.0,"La Anónima":7050.0,"DIA":4650.0,"Vea":8190.0},"prev":{"Changomas":7439.0,"Carrefour":5112.5,"Jumbo":6650.0,"La Anónima":7050.0,"DIA":4650.0,"Vea":8190.0},"b":{"Changomas":{"1011":7439.0,"1075":7439.0},"Carrefour":{"171":4830.0,"175":6205.0}},"nc":"Café molido La Virginia","m":"La Virginia","c":"250 g","v":["Clásico"],"f":"10a1c504"},{"ean":"7792540250450","rubro":"Almacén","nombre":"Azúcar Molida Superior Ledesma x 1 kg","p":{"Changomas":1679.0,"Carrefour":1612.5,"Jumbo":1635.0,"DIA":1470.0,"Vea":1590.0},"prev":{"Changomas":1679.0,"Carrefour":1612.5,"Jumbo":1609.0,"DIA":1470.0,"Vea":1590.0},"b":{"Changomas":{"1011":1679.0,"1075":1679.0},"Carrefour":{"171":1635.0,"175":1590.0}},"nc":"Azúcar Ledesma","m":"Ledesma","c":"1 kg","v":["Molida","Superior"],"f":"71b56e6c"},{"ean":"7790272001029","rubro":"Almacén","nombre":"Aceite Girasol Natura x 1.5 L","p":{"Changomas":7469.0,"Carrefour":6889.0,"Jumbo":7463.0,"La Anónima":6150.0,"DIA":7490.0,"Vea":7190.0},"prev":{"Changomas":7469.0,"Carrefour":5990.0,"Jumbo":5990.0,"La Anónima":6150.0,"DIA":7676.0,"Vea":5990.0},"b":{"Changomas":{"1011":7469.0,"1075":7469.0},"Carrefour":{"175":6889.0}},"nc":"Aceite de girasol Natura","m":"Natura","c":"1,5 L","v":["Girasol"],"f":"b0a4ad52"},{"ean":"7792180001665","rubro":"Almacén","nombre":"Aceite Girasol Cañuelas x 1.5 L","p":{"Changomas":6429.0,"Carrefour":6290.0,"Jumbo":6800.0,"La Anónima":7050.0,"DIA":6289.0,"Vea":6290.0},"prev":{"Changomas":6429.0,"Carrefour":5879.5,"Jumbo":6800.0,"La Anónima":7050.0,"DIA":6413.0,"Vea":6590.0},"b":{"Changomas":{"1011":5729.0,"1075":7129.0},"Carrefour":{"171":6290.0,"175":6290.0}},"nc":"Aceite de girasol Cañuelas","m":"Cañuelas","c":"1,5 L","v":["Girasol"],"f":"80b6ebd6"},{"ean":"7791120031557","rubro":"Almacén","nombre":"Arroz Largo Fino 00000 Molinos Ala x 1 kg","p":{"Changomas":2009.0,"Carrefour":1722.0,"Jumbo":1860.0,"La Anónima":1580.0,"DIA":1490.0,"Vea":1790.0},"prev":{"Changomas":2009.0,"Carrefour":1722.0,"Jumbo":1931.0,"La Anónima":1580.0,"DIA":1490.0,"Vea":1790.0},"b":{"Changomas":{"1011":2009.0,"1075":2009.0},"Carrefour":{"171":1735.0,"175":1709.0}},"nc":"Arroz Molinos Ala","m":"Molinos Ala","c":"1 kg","v":["Largo fino","00000"],"f":"9c9c4625"},{"ean":"7790070336651","rubro":"Almacén","nombre":"Fideos Spaghetti Rina Matarazzo x 500 g","p":{"Changomas":3879.0,"Carrefour":3247.0,"Jumbo":3900.0,"La Anónima":2850.0,"DIA":3000.0,"Vea":3199.0},"prev":{"Changomas":3879.0,"Carrefour":3247.0,"Jumbo":3900.0,"La Anónima":2850.0,"DIA":3000.0,"Vea":3199.0},"b":{"Changomas":{"1011":3879.0,"1075":3879.0},"Carrefour":{"171":3295.0,"175":3199.0}},"nc":"Fideos Matarazzo","m":"Matarazzo","c":"500 g","v":["Spaghetti","Rina"],"f":"cb20d962"},{"ean":"7790070336576","rubro":"Almacén","nombre":"Fideos Tallarines Don Vicente x 500 g","p":{"Changomas":4029.0,"Carrefour":3237.5,"Jumbo":3950.0,"La Anónima":2810.0,"DIA":3237.0,"Vea":3790.0},"prev":{"Changomas":3879.0,"Carrefour":3237.5,"Jumbo":3606.0,"La Anónima":2810.0,"DIA":3237.0,"Vea":3190.0},"b":{"Changomas":{"1011":4029.0,"1075":4029.0},"Carrefour":{"171":3285.0,"175":3190.0}},"nc":"Fideos Don Vicente","m":"Don Vicente","c":"500 g","v":["Tallarines"],"f":"da4627a1"},{"ean":"7790070336385","rubro":"Almacén","nombre":"Fideos Spaghetti N7 Lucchetti x 500 g","p":{"Changomas":1789.0,"Carrefour":1390.0,"Jumbo":1750.0,"La Anónima":1450.0,"DIA":1370.0,"Vea":1390.0},"prev":{"Changomas":1789.0,"Carrefour":1390.0,"Jumbo":1550.0,"La Anónima":1350.0,"DIA":1370.0,"Vea":1390.0},"b":{"Changomas":{"1011":1789.0,"1075":1789.0},"Carrefour":{"171":1390.0,"175":1390.0}},"nc":"Fideos Lucchetti","m":"Lucchetti","c":"500 g","v":["Spaghetti","N.º 7"],"f":"c2bbe1db"},{"ean":"7792590000159","rubro":"Almacén","nombre":"Harina De Trigo 000 Caserita x 1 kg","p":{"Changomas":1049.0,"Carrefour":1052.0,"Jumbo":1050.0,"La Anónima":840.0,"DIA":1163.0,"Vea":1190.0},"prev":{"Changomas":1049.0,"Carrefour":990.0,"Jumbo":1050.0,"La Anónima":840.0,"DIA":1088.0,"Vea":1190.0},"b":{"Changomas":{"1011":1049.0,"1075":1049.0},"Carrefour":{"171":1089.0,"175":1015.0}},"nc":"Harina Caserita","m":"Caserita","c":"1 kg","v":["000"],"f":"5662f3ce"},{"ean":"7792180139320","rubro":"Almacén","nombre":"Harina De Trigo 000 Ultraref Cañuelas x 1 kg","p":{"Changomas":1209.0,"Carrefour":802.5,"Jumbo":1050.0,"La Anónima":1150.0,"DIA":809.0,"Vea":790.0},"prev":{"Changomas":1209.0,"Carrefour":802.5,"Jumbo":1050.0,"La Anónima":1150.0,"DIA":809.0,"Vea":790.0},"b":{"Changomas":{"1011":1209.0,"1075":1209.0},"Carrefour":{"171":815.0,"175":790.0}},"nc":"Harina Cañuelas","m":"Cañuelas","c":"1 kg","v":["000","Ultrarefinada"],"f":"85ea0175"},{"ean":"7790072002080","rubro":"Almacén","nombre":"Sal Fina Celusal x 500 g","p":{"Changomas":1929.0,"Carrefour":1917.0,"Jumbo":2000.0,"La Anónima":1140.0,"DIA":1888.0,"Vea":1990.0},"prev":{"Changomas":1929.0,"Carrefour":1917.0,"Jumbo":2000.0,"La Anónima":1140.0,"DIA":1888.0,"Vea":1990.0},"b":{"Changomas":{"1011":1929.0,"1075":1929.0},"Carrefour":{"171":1945.0,"175":1889.0}},"nc":"Sal Celusal","m":"Celusal","c":"500 g","v":["Fina"],"f":"12dadc89"},{"ean":"7791004000099","rubro":"Almacén","nombre":"Sal Gruesa Celusal x 1 kg","p":{"Changomas":2799.0,"Carrefour":2730.0,"Jumbo":2850.0,"La Anónima":2500.0,"DIA":1945.0,"Vea":2790.0},"prev":{"Changomas":2799.0,"Carrefour":2730.0,"Jumbo":2850.0,"La Anónima":2500.0,"DIA":1945.0,"Vea":2790.0},"b":{"Changomas":{"1011":2799.0,"1075":2799.0},"Carrefour":{"171":2770.0,"175":2690.0}},"nc":"Sal Celusal","m":"Celusal","c":"1 kg","v":["Gruesa"],"f":"ab632355"},{"ean":"7790580138721","rubro":"Almacén","nombre":"Polenta Instantan Prestopronta x 730 g","p":{"Changomas":2589.0,"Carrefour":2290.0,"Jumbo":2550.0,"La Anónima":2300.0,"DIA":2623.0,"Vea":2490.0},"prev":{"Changomas":2589.0,"Carrefour":2290.0,"Jumbo":2550.0,"La Anónima":2300.0,"DIA":2623.0,"Vea":2490.0},"b":{"Changomas":{"1011":2589.0,"1075":2589.0},"Carrefour":{"175":2290.0}},"nc":"Polenta Presto Pronta","m":"Presto Pronta","c":"730 g","v":["Instantánea"],"f":"3fd619bf"},{"ean":"7790580146115","rubro":"Almacén","nombre":"Puré De Tomate Arcor x 520 g","p":{"Changomas":1259.0,"Carrefour":734.0,"Jumbo":1220.0,"La Anónima":920.0,"DIA":771.0,"Vea":1190.0},"prev":{"Changomas":1259.0,"Carrefour":829.0,"Jumbo":749.0,"La Anónima":460.0,"DIA":771.0,"Vea":990.0},"b":{"Changomas":{"1011":1259.0,"1075":1259.0},"Carrefour":{"171":749.0,"175":719.0}},"nc":"Puré de tomate Arcor","m":"Arcor","c":"520 g","v":[],"f":"0e17b2b1"},{"ean":"7790580567903","rubro":"Almacén","nombre":"Tomate Pelado Perita Arcor Lata x 400 g","p":{"Changomas":1629.0,"Carrefour":1319.0,"Jumbo":1600.0,"La Anónima":1600.0,"DIA":1299.0,"Vea":1690.0},"prev":{"Changomas":1629.0,"Carrefour":1319.0,"Jumbo":1550.0,"La Anónima":1600.0,"DIA":1299.0,"Vea":1290.0},"b":{"Changomas":{"1011":1629.0,"1075":1629.0},"Carrefour":{"171":1339.0,"175":1299.0}},"nc":"Tomate Arcor","m":"Arcor","c":"400 g","v":["Perita","Pelado"],"f":"b17638a7"},{"ean":"7790580131364","rubro":"Almacén","nombre":"Atún Al Natural Lomitos La Campagnola x 170 g","p":{"Changomas":6409.0,"Carrefour":5102.0,"Jumbo":6278.0,"La Anónima":4200.0,"DIA":4782.0,"Vea":5590.0},"prev":{"Changomas":6409.0,"Carrefour":5004.0,"Jumbo":5279.0,"La Anónima":4200.0,"DIA":4782.0,"Vea":5590.0},"b":{"Changomas":{"1011":6409.0,"1075":6409.0},"Carrefour":{"171":4925.0,"175":5279.0}},"nc":"Atún La Campagnola","m":"La Campagnola","c":"170 g","v":["Lomitos","Al natural"],"f":"0c1cb314"},{"ean":"7794000006072","rubro":"Almacén","nombre":"Mayonesa Regular Hellmanns x 475 g","p":{"Changomas":3059.0,"Carrefour":2299.0,"Jumbo":2279.0,"La Anónima":2180.0,"DIA":2313.0,"Vea":2278.0},"prev":{"Changomas":3059.0,"Carrefour":2314.0,"Jumbo":2279.0,"La Anónima":2180.0,"DIA":2250.0,"Vea":2278.0},"b":{"Changomas":{"1011":3059.0,"1075":3059.0},"Carrefour":{"171":2349.0,"175":2249.0}},"nc":"Mayonesa Hellmann's","m":"Hellmann's","c":"475 g","v":["Regular"],"f":"af8f5100"},{"ean":"7790070433275","rubro":"Almacén","nombre":"Pan Rallado Lucchetti Nutrivit x 500 g","p":{"Changomas":1689.0,"Carrefour":1599.0,"Jumbo":1750.0,"DIA":1745.0,"Vea":1599.0},"prev":{"Changomas":1689.0,"Carrefour":1549.0,"Jumbo":1650.0,"DIA":1639.0,"Vea":1599.0},"b":{"Changomas":{"1011":1689.0,"1075":1689.0},"Carrefour":{"175":1599.0}},"nc":"Pan rallado Lucchetti","m":"Lucchetti","c":"500 g","v":["Nutrivit"],"f":"0ff72ea2"},{"ean":"7790040144095","rubro":"Almacén","nombre":"Galletitas Clásicas Traviata 5 x 108 g","p":{"Changomas":3619.0,"Carrefour":3185.0,"Jumbo":3346.0,"La Anónima":1700.0,"DIA":2945.0,"Vea":2890.0},"prev":{"Changomas":3619.0,"Carrefour":2944.5,"Jumbo":2900.0,"La Anónima":3400.0,"DIA":2945.0,"Vea":2900.0},"b":{"Changomas":{"1011":3619.0,"1075":3619.0},"Carrefour":{"171":3035.0,"175":3335.0}},"nc":"Galletitas Traviata","m":"Traviata","c":"5 × 108 g","v":["Clásicas"],"f":"cbcfc257"},{"ean":"7790580132422","rubro":"Almacén","nombre":"Choclo En Granos Amarillo Arcor Lata x 300 g","p":{"Changomas":2214.0,"Carrefour":2020.0,"Jumbo":2292.0,"DIA":2424.0,"Vea":1990.0},"prev":{"Changomas":2214.0,"Carrefour":2020.0,"Jumbo":1990.0,"DIA":2424.0,"Vea":1990.0},"b":{"Changomas":{"1011":2079.0,"1075":2349.0},"Carrefour":{"171":2050.0,"175":1990.0}},"nc":"Choclo Arcor","m":"Arcor","c":"300 g","v":["En granos","Amarillo"],"f":"442cb7ca"},{"ean":"7790895000997","rubro":"Bebidas","nombre":"Gaseosa Cola Regular Coca Cola x 2.25 L","p":{"Changomas":4799.0,"Carrefour":5100.0,"Jumbo":5100.0,"La Anónima":3937.5,"DIA":5100.0,"Vea":5190.0},"prev":{"Changomas":4799.0,"Carrefour":5160.0,"Jumbo":5139.0,"La Anónima":4900.0,"DIA":4800.0,"Vea":5190.0},"b":{"Changomas":{"1011":4799.0,"1075":4799.0},"Carrefour":{"171":5100.0,"175":5100.0}},"nc":"Gaseosa Coca-Cola","m":"Coca-Cola","c":"2,25 L","v":["Regular"],"f":"daeaa163"},{"ean":"7791813888468","rubro":"Bebidas","nombre":"Gaseosa Cola Regular Pepsi N x 2 L","p":{"Changomas":3949.0,"Carrefour":3900.0,"Jumbo":3900.0,"La Anónima":3000.0,"DIA":4550.0,"Vea":3900.0},"prev":{"Changomas":3949.0,"Carrefour":3900.0,"Jumbo":3900.0,"La Anónima":3000.0,"DIA":4550.0,"Vea":3900.0},"b":{"Changomas":{"1011":3949.0,"1075":3949.0},"Carrefour":{"171":3950.0,"175":3850.0}},"nc":"Gaseosa Pepsi","m":"Pepsi","c":"2 L","v":["Regular"],"f":"585396a6"},{"ean":"7799155000197","rubro":"Bebidas","nombre":"Agua Mineral Sin Gas Villavicencio x 2 L","p":{"Changomas":3199.0,"Carrefour":3190.0,"Jumbo":3200.0,"La Anónima":2362.5,"DIA":1980.0,"Vea":3190.0},"prev":{"Changomas":3199.0,"Carrefour":3190.0,"Jumbo":3200.0,"La Anónima":2362.5,"DIA":1920.0,"Vea":3190.0},"b":{"Changomas":{"1011":3199.0,"1075":3199.0},"Carrefour":{"171":3190.0,"175":3190.0}},"nc":"Agua mineral Villavicencio","m":"Villavicencio","c":"2 L","v":["Sin gas"],"f":"4b4b2cfc"},{"ean":"7790670052401","rubro":"Fiambres","nombre":"Salchichas Vienissima x 6 u","p":{"Changomas":3289.0,"Carrefour":3354.0,"Jumbo":3290.0,"La Anónima":3100.0,"DIA":3279.0,"Vea":3290.0},"prev":{"Changomas":3289.0,"Carrefour":3354.0,"Jumbo":3290.0,"La Anónima":3100.0,"DIA":3279.0,"Vea":3290.0},"b":{"Changomas":{"1011":3289.0,"1075":3289.0},"Carrefour":{"171":3429.0,"175":3279.0}},"nc":"Salchichas Vienissima","m":"Vienissima","c":"6 u.","v":[],"f":"60f331d2"},{"ean":"7791290794061","rubro":"Limpieza","nombre":"Detergente Bioactive Limón Cif x 500 cc","p":{"Changomas":4034.0,"Carrefour":3735.0,"Jumbo":4250.0,"La Anónima":2610.0,"DIA":3669.0,"Vea":3690.0},"prev":{"Changomas":4034.0,"Carrefour":3735.0,"Jumbo":4250.0,"La Anónima":2610.0,"DIA":3669.0,"Vea":3690.0},"b":{"Changomas":{"1011":3579.0,"1075":4489.0},"Carrefour":{"171":3780.0,"175":3690.0}},"nc":"Detergente Cif","m":"Cif","c":"500 cc","v":["Bioactive","Limón"],"f":"64a05aac"},{"ean":"7793253004774","rubro":"Limpieza","nombre":"Lavandina Ropa Blancos Inten Floral Ayudin Botx1 L","p":{"Changomas":2639.0,"Carrefour":2454.0,"Jumbo":2600.0,"La Anónima":1680.0,"DIA":2430.0,"Vea":2550.0},"prev":{"Changomas":2469.0,"Carrefour":2454.0,"Jumbo":2600.0,"La Anónima":1680.0,"DIA":2430.0,"Vea":2550.0},"b":{"Changomas":{"1011":2639.0,"1075":2639.0},"Carrefour":{"171":2489.0,"175":2419.0}},"nc":"Lavandina Ayudín","m":"Ayudín","c":"1 L","v":["Ropa blanca","Floral"],"f":"e3f694cd"},{"ean":"7791290795518","rubro":"Limpieza","nombre":"Jabón Liq Ropa P Diluir Powr Delux Skip x 500 cc","p":{"Changomas":14549.0,"Carrefour":12190.0,"Jumbo":13750.0,"DIA":14190.0,"Vea":12290.0},"prev":{"Changomas":14549.0,"Carrefour":12190.0,"Jumbo":12150.0,"DIA":14190.0,"Vea":12290.0},"b":{"Changomas":{"1011":14549.0,"1075":14549.0},"Carrefour":{"175":12190.0}},"nc":"Jabón líquido Skip","m":"Skip","c":"500 cc","v":["Para diluir"],"f":"b1c28052"},{"ean":"7790250015857","rubro":"Higiene","nombre":"Papel Higiénico Hs Max Higienol 4 x 80 m","p":{"Changomas":6219.0,"Carrefour":4590.0,"Jumbo":5750.0,"DIA":4689.0,"Vea":4590.0},"prev":{"Changomas":6219.0,"Carrefour":4590.0,"Jumbo":5750.0,"DIA":4689.0,"Vea":4590.0},"b":{"Changomas":{"1011":6219.0,"1075":6219.0},"Carrefour":{"171":4590.0,"175":4590.0}},"nc":"Papel higiénico Higienol","m":"Higienol","c":"4 × 80 m","v":["Max"],"f":"96509a6b"},{"ean":"7891150095618","rubro":"Higiene","nombre":"Jabón Tocador Piel Sensible Dove x 90 g","p":{"Changomas":2789.0,"Carrefour":2595.0,"Jumbo":2900.0,"La Anónima":2550.0,"DIA":2055.0,"Vea":2690.0},"prev":{"Changomas":2789.0,"Carrefour":2595.0,"Jumbo":2900.0,"La Anónima":2550.0,"DIA":2817.0,"Vea":2690.0},"b":{"Changomas":{"1011":2789.0,"1075":2789.0},"Carrefour":{"175":2595.0}},"nc":"Jabón de tocador Dove","m":"Dove","c":"90 g","v":["Piel sensible"],"f":"f352b1c1"},{"ean":"7791293047164","rubro":"Higiene","nombre":"Shampoo Nutrición + Tri Oleos Dove x 400 cc","p":{"Changomas":10359.0,"Carrefour":7637.5,"Jumbo":8075.0,"La Anónima":6060.0,"DIA":6400.0,"Vea":6990.0},"prev":{"Changomas":10359.0,"Carrefour":7637.5,"Jumbo":8075.0,"La Anónima":6060.0,"DIA":6400.0,"Vea":6990.0},"b":{"Changomas":{"1011":10359.0,"1075":10359.0},"Carrefour":{"171":7200.0,"175":8075.0}},"nc":"Shampoo Dove","m":"Dove","c":"400 cc","v":["Nutrición + Tri-óleos"],"f":"a98b73e4"},{"ean":"7509546686523","rubro":"Higiene","nombre":"Crema Dental Triple Acción Colgate x 90 g","p":{"Changomas":4229.0,"Carrefour":3790.0,"Jumbo":4200.0,"La Anónima":3037.5,"DIA":3690.0,"Vea":3990.0},"prev":{"Changomas":4229.0,"Carrefour":3592.5,"Jumbo":4200.0,"La Anónima":3037.5,"DIA":3690.0,"Vea":3990.0},"b":{"Changomas":{"1011":4229.0,"1075":4229.0},"Carrefour":{"171":3690.0,"175":3890.0}},"nc":"Crema dental Colgate","m":"Colgate","c":"90 g","v":["Triple acción"],"f":"04e99aa3"}];
+const CAD = ["Changomas", "Carrefour", "Jumbo", "La Anónima", "DIA", "Vea"];
+const SUC = {"Changomas":[{"id":"1075","n":"Av. Fuerza Aérea esq. Aguas Blancas","lat":"-24.7261","lon":"-65.403373"},{"id":"1011","n":"Av. Paraguay 1450","lat":"-24.804821","lon":"-65.420784"}],"Carrefour":[{"id":"171","n":"Av. Bicentenario Batalla de Salta 702","lat":"-24.781285","lon":"-65.401667"},{"id":"175","n":"Av. Entre Ríos 1816","lat":"-24.779652","lon":"-65.427437"}]};   // cadena -> sucursales, solo de las cadenas que cobran distinto según el local
+const money = n => "$" + Math.round(n).toLocaleString("es-AR");
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const EMOJI = { "Lácteos": "🥛", "Almacén": "🥫", "Yerba/Infusiones": "🧉", "Bebidas": "🥤", "Fiambres": "🌭", "Limpieza": "🧴", "Higiene": "🧼" };
+const emo = r => EMOJI[r] || "🛒";
+// Capacidad y variante bien grandes, como texto (más confiable y legible que cualquier foto a este tamaño). Datos de productos_info.csv.
+const chipsInfo = d => (d.c || (d.v && d.v.length)) ? `<div class="ci">${d.c ? `<span class="cap">${esc(d.c)}</span>` : ""}${(d.v || []).map(x => `<span class="var">${esc(x)}</span>`).join("")}</div>` : "";
+// Foto del producto (si hay); si no carga, queda el ícono del rubro
+// Lupa: en dispositivos con mouse, la foto de un producto se agranda al pasar el cursor.
+if (matchMedia("(hover:hover) and (pointer:fine)").matches) {
+  const lupa = document.createElement("div"); lupa.id = "lupa"; lupa.setAttribute("aria-hidden", "true"); document.body.appendChild(lupa);
+  const cerrar = () => { lupa.classList.remove("on"); lupa.style.display = "none"; };
+  document.addEventListener("mouseover", e => {
+    const im = e.target.closest && e.target.closest(".e.ph img");
+    if (!im) return;
+    const r = im.getBoundingClientRect(), nw = im.naturalWidth || 1, nh = im.naturalHeight || 1;
+    const lado = Math.min(400, innerHeight - 40), esc2 = Math.min(lado / Math.max(nw, nh), 1.6);
+    const w = Math.round(nw * esc2) + 20, h = Math.round(nh * esc2) + 20;
+    lupa.innerHTML = `<img src="${im.src}" alt="">`; lupa.style.width = w + "px"; lupa.style.height = h + "px"; lupa.style.display = "block";
+    let x = r.right + 14; if (x + w > innerWidth - 8) x = r.left - w - 14; if (x < 8) x = 8;
+    let y = r.top + r.height / 2 - h / 2; y = Math.max(8, Math.min(y, innerHeight - h - 8));
+    lupa.style.left = x + "px"; lupa.style.top = y + "px"; requestAnimationFrame(() => lupa.classList.add("on"));
+  });
+  document.addEventListener("mouseout", e => { if (e.target.closest && e.target.closest(".e.ph img")) cerrar(); });
+  addEventListener("scroll", cerrar, { passive: true });
+}
+else {
+  const vista = document.createElement("div"); vista.id = "vista"; vista.setAttribute("role", "dialog"); vista.setAttribute("aria-label", "Foto del producto");
+  vista.innerHTML = `<button class="x" aria-label="Cerrar">×</button><div class="mk"><img alt=""></div><div class="tt"></div>`; document.body.appendChild(vista);
+  const cerrarV = () => vista.classList.remove("on");
+  vista.addEventListener("click", cerrarV);
+  addEventListener("keydown", e => { if (e.key === "Escape") cerrarV(); });
+  document.addEventListener("click", e => {
+    const im = e.target.closest && e.target.closest(".e.ph img");
+    if (!im) return;
+    e.preventDefault(); e.stopPropagation();
+    const nom = im.closest(".card,.deal"); const t = nom && nom.querySelector(".name,.nm");
+    vista.querySelector("img").src = im.src; vista.querySelector(".tt").textContent = t ? t.textContent : ""; vista.classList.add("on");
+  }, true);
+}
+const pic = d => d.f ? `<div class="e ph"><img src="assets/productos/${esc(d.ean)}.webp?v=${esc(d.f)}" alt="" loading="lazy" onerror="this.parentNode.classList.remove('ph');this.parentNode.textContent='${emo(d.rubro)}'"></div>`
+  : `<div class="e" aria-hidden="true">${emo(d.rubro)}</div>`;
+let cart = new Set(), sel = {}, rubro = "Todos", open = new Set(), openB = new Set();
+try { cart = new Set(JSON.parse(localStorage.getItem("cs_cart") || "[]")); } catch (e) {}
+try { sel = JSON.parse(localStorage.getItem("cs_suc") || "{}") || {}; } catch (e) {}
+Object.keys(sel).forEach(c => { if (!SUC[c] || !SUC[c].some(s => s.id === sel[c])) delete sel[c]; });
+const save = () => { try { localStorage.setItem("cs_cart", JSON.stringify([...cart])); localStorage.setItem("cs_suc", JSON.stringify(sel)); } catch (e) {} };
+
+// Precio de una cadena: el de la sucursal elegida (si hay) o el típico de la cadena (null = no informó el producto)
+const pr = (d, c) => (sel[c] && d.b && d.b[c] && d.b[c][sel[c]] != null) ? d.b[c][sel[c]] : (d.p[c] == null ? null : d.p[c]);
+const avail = d => CAD.filter(c => pr(d, c) != null);
+const minOf = d => avail(d).reduce((b, c) => pr(d, c) < pr(d, b) ? c : b);
+const maxOf = d => avail(d).reduce((b, c) => pr(d, c) > pr(d, b) ? c : b);
+const sucName = (c, id) => (SUC[c].find(s => s.id === id) || {}).n || "";
+const hasSuc = Object.keys(SUC).length > 0;
+const totalSuc = (c, id) => DATA.reduce((s, d) => s + ((d.b && d.b[c] && d.b[c][id] != null) ? d.b[c][id] : (d.p[c] || 0)), 0);
+let dist = {}, geoText = "";   // dist: cadena -> {sucursal: km}. La ubicación NO se guarda ni se envía: solo vive en esta página.
+const kmTxt = k => k < 10 ? k.toFixed(1).replace(".", ",") + " km" : Math.round(k) + " km";
+const distKm = (a, b, c, d) => {
+  const r = x => x * Math.PI / 180, h = Math.sin(r(c - a) / 2) ** 2 + Math.cos(r(a)) * Math.cos(r(c)) * Math.sin(r(d - b) / 2) ** 2;
+  return 12742 * Math.asin(Math.sqrt(h));
+};
+let comunes = [];   // productos que informan las cadenas (base del ranking del hero)
+const ahorroPct = d => { const a = avail(d).map(c => pr(d, c)); return a.length > 1 ? 1 - Math.min(...a) / Math.max(...a) : 0; };
+const mediana = a => { const s = [...a].sort((x, y) => x - y), m = s.length >> 1; return s.length ? (s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2) : 0; };
+
+/* ---------- hero: ranking de la canasta y ahorro típico ---------- */
+function renderHero() {
+  $("#lead").innerHTML = `Comparamos ${DATA.length} productos de la canasta básica en ${CAD.length} supermercados de Salta capital, con los precios que ellos mismos informan al Estado. El ranking compara <b>esta canasta, ese día</b>: no toda tu compra.`;
+  comunes = DATA.filter(d => CAD.every(c => pr(d, c) != null));
+  const tot = Object.fromEntries(CAD.map(c => [c, comunes.reduce((s, d) => s + pr(d, c), 0)]));
+  const ord = [...CAD].sort((a, b) => tot[a] - tot[b]), lo = tot[ord[0]], hi = tot[ord[ord.length - 1]];
+  const tipico = Math.round(mediana(DATA.map(ahorroPct)) * 100);
+  $("#rank").innerHTML = `<div class="badge" aria-label="Ahorro típico ${tipico} por ciento"><small>Ahorro típico</small><b>${tipico}%</b><span>por producto si elegís bien</span></div>
+    <h2>La canasta hoy</h2>
+    ${selloHtml()}
+    ${ord.map((c, i) => `<div class="rk${i === 0 ? " first" : ""}"><span class="pos">${i + 1}</span>
+      <span class="cn"><span><b>${esc(c)}</b>${i === 0 ? '<span class="win">Más barata en esta canasta</span>' : `<span class="mas">+${Math.round((tot[c] / lo - 1) * 100)}%</span>`}</span></span>
+      <b class="num">${money(tot[c])}</b><div class="barra"><i style="width:${(tot[c] / hi * 100).toFixed(0)}%"></i></div></div>`).join("")}
+    <button class="btn s rk-btn" id="brank">Ver los ${comunes.length} productos de esta canasta →</button>
+    <p class="sub" style="text-align:center;margin:8px 0 0"><a href="metodologia.html#ranking" style="color:var(--brand);font-weight:700">¿Cómo se arma este ranking?</a></p>
+    <div class="promo mini" role="note"><svg class="ico"><use href="#i-tag"/></svg><span>Pueden variar según las <b>PROMOS</b> de cada súper: es el precio de lista más la promo general que informa la cadena.</span></div>`;
+}
+
+/* ---------- detalle del ranking: qué productos entran y cuánto cuesta cada uno ---------- */
+function rankSheet() {
+  const tot = Object.fromEntries(CAD.map(c => [c, comunes.reduce((s, d) => s + pr(d, c), 0)]));
+  const ord = [...CAD].sort((a, b) => tot[a] - tot[b]);
+  const filas = [...comunes].sort((a, b) => a.rubro.localeCompare(b.rubro) || a.nombre.localeCompare(b.nombre));
+  const fuera = DATA.filter(d => !comunes.includes(d));
+  $("#sheet").className = "sheet wide";
+  $("#sheet").innerHTML = `<h2>La canasta del ranking</h2>
+    ${selloHtml()}
+    <div class="sub">Ordenados de la más barata a la más cara <b>en esta canasta</b>. En verde, el precio más bajo de cada producto.</div>
+    <div class="tabla"><table>
+      <thead><tr><th scope="col">Producto</th>${ord.map((c, i) => `<th scope="col"><b>${esc(c)}</b><small>${i + 1}° · ${sel[c] ? esc(sucName(c, sel[c])) : "típico"}</small></th>`).join("")}</tr></thead>
+      <tbody>${filas.map(d => { const m = minOf(d); return `<tr><th scope="row">${esc(d.nombre)}</th>${ord.map(c => `<td class="num ${c === m ? "lo" : ""}">${money(pr(d, c))}</td>`).join("")}</tr>`; }).join("")}</tbody>
+      <tfoot><tr><th scope="row">Total (${comunes.length} productos)</th>${ord.map(c => `<td class="num">${money(tot[c])}</td>`).join("")}</tr></tfoot>
+    </table></div>
+    ${fuera.length ? `<details class="fuera"><summary>${fuera.length} productos de la canasta quedaron afuera</summary>
+      <p style="margin:6px 0">No entran al ranking porque alguna cadena no los informa; para no favorecer a nadie, se comparan solo los que están en todas.</p>
+      <ul style="margin:0;padding-left:18px">${fuera.map(d => `<li>${esc(d.nombre)} <span>(no lo informa ${CAD.filter(c => pr(d, c) == null).map(esc).join(", ")})</span></li>`).join("")}</ul></details>` : ""}
+    <div class="promo mini" role="note"><svg class="ico"><use href="#i-tag"/></svg><span>Pueden variar según las <b>PROMOS</b> de cada súper: es el precio de lista más la promo general que informa la cadena.</span></div>
+    <p style="text-align:center;margin:16px 0 0"><button class="btn p" id="close">Cerrar</button></p>`;
+  $("#panel").classList.add("open");
+}
+
+/* ---------- rubros ---------- */
+function renderCats() {
+  const rs = [...new Set(DATA.map(d => d.rubro))];
+  const n = r => DATA.filter(d => r === "Todos" || d.rubro === r).length;
+  $("#cats").innerHTML = ["Todos", ...rs].map(r => `<button class="cat" aria-pressed="${r === rubro}" data-r="${esc(r)}">
+    <span class="e">${r === "Todos" ? "🛒" : emo(r)}</span><b>${esc(r)}</b><small>${n(r)} productos</small></button>`).join("");
+}
+
+/* ---------- mayores diferencias (se descartan las que parecen un error de carga) ---------- */
+function renderDeals() {
+  const sospechoso = d => { const c = minOf(d), a = d.prev && d.prev[c]; return !!a && Math.abs(d.p[c] / a - 1) >= 0.4; };
+  const top = DATA.filter(d => avail(d).length > 2 && !sospechoso(d)).sort((a, b) => ahorroPct(b) - ahorroPct(a)).slice(0, 6);
+  $("#deals").innerHTML = top.map(d => {
+    const m = minOf(d), x = maxOf(d), on = cart.has(d.ean);
+    return `<article class="deal"><span class="off">−${Math.round(ahorroPct(d) * 100)}%</span>
+      ${pic(d)}<div class="nm">${esc(d.nc || d.nombre)}</div>${chipsInfo(d)}
+      <div class="pz num">${money(pr(d, m))}<s>${money(pr(d, x))}</s></div>
+      <div class="en">en <b>${esc(m)}</b> · más caro en ${esc(x)}</div>
+      <button class="add ${on ? "on" : ""}" data-a="${esc(d.ean)}" aria-pressed="${on}">${on ? "✓ En la canasta" : "+ Agregar"}</button></article>`;
+  }).join("");
+}
+
+/* ---------- sucursal / ubicación ---------- */
+function header() {
+  if (!hasSuc) { $("#suc").innerHTML = ""; return; }
+  const elegidas = Object.keys(sel).map(c => `${esc(c)}: ${esc(sucName(c, sel[c]))}${dist[c] && dist[c][sel[c]] != null ? ` (${kmTxt(dist[c][sel[c]])})` : ""}`);
+  $("#suc").innerHTML = `<button class="btn p" id="bgeo">🎯 Usar mi ubicación</button>`
+    + `<button class="btn s" id="bsuc">📍 ${elegidas.length ? "Cambiar sucursal" : "Elegir sucursal"}</button>`
+    + `<div class="sub">${geoText || (elegidas.length ? elegidas.join(" · ") : "Ahora: precio típico de cada cadena")}</div>`;
+}
+
+// Elige la sucursal más cercana de cada cadena que cobra distinto según el local
+function locate() {
+  if (!navigator.geolocation) { geoText = "Tu navegador no permite usar la ubicación. Elegí la sucursal a mano."; return header(); }
+  geoText = "Buscando tu ubicación…"; header();
+  navigator.geolocation.getCurrentPosition(pos => {
+    const { latitude: la, longitude: lo } = pos.coords, notas = [];
+    dist = {};
+    for (const c of Object.keys(SUC)) {
+      const ds = SUC[c].filter(s => s.lat).map(s => ({ s, k: distKm(la, lo, +s.lat, +s.lon) })).sort((a, b) => a.k - b.k);
+      if (!ds.length) continue;
+      dist[c] = Object.fromEntries(ds.map(x => [x.s.id, x.k]));
+      if (ds[0].k > 30) { notas.push(`${esc(c)}: la sucursal más cercana está a ${kmTxt(ds[0].k)}, parece que no estás en Salta capital`); continue; }
+      sel[c] = ds[0].s.id;
+      const barata = SUC[c].map(s => ({ s, t: totalSuc(c, s.id) })).sort((a, b) => a.t - b.t)[0];
+      const ahorro = totalSuc(c, ds[0].s.id) - barata.t;
+      notas.push(`${esc(c)}: la más cercana es ${esc(ds[0].s.n)} (${kmTxt(ds[0].k)})`
+        + (barata.s.id !== ds[0].s.id && ahorro >= 100 ? `; la de ${esc(barata.s.n)} (${kmTxt(dist[c][barata.s.id])}) sale ${money(ahorro)} menos por la canasta` : ""));
+    }
+    geoText = notas.join(" · ") + `<br><small>Tu ubicación se usa solo en tu teléfono, no se guarda ni se envía.</small>`;
+    save(); render();
+  }, err => {
+    geoText = err.code === 1 ? "No diste permiso para usar la ubicación. Podés elegir la sucursal a mano."
+      : "No pude obtener tu ubicación. Podés elegir la sucursal a mano.";
+    header();
+  }, { timeout: 12000, maximumAge: 300000 });
+}
+
+/* ---------- lista de productos ---------- */
+// variación contra el precio de hace ~1 semana (solo si hubo un cambio de al menos 0,5%; se oculta si hay sucursal elegida)
+function chg(d, c) {
+  const a = d.prev && d.prev[c];
+  if (!a || sel[c]) return "";
+  const v = (d.p[c] / a - 1) * 100;
+  if (Math.abs(v) < 0.5) return "";
+  return `<span class="chg ${v > 0 ? "up" : "down"}" title="Cambió respecto de hace una semana (${money(a)})">${v > 0 ? "▲" : "▼"}${Math.abs(v).toFixed(0)}%</span>`;
+}
+
+function branchList(d, c) {
+  const arr = SUC[c].filter(s => d.b[c][s.id] != null).map(s => ({ ...s, v: d.b[c][s.id] })).sort((a, b) => a.v - b.v);
+  const lo = arr[0].v;
+  return `<div class="brl">${arr.map(s => `<div class="br">
+      <button class="pick" data-s="${esc(c)}|${esc(s.id)}" aria-pressed="${sel[c] === s.id}" title="Usar esta sucursal">${sel[c] === s.id ? "✓ " : ""}${esc(s.n)}</button>
+      <span><b class="num ${s.v === lo ? "lo" : ""}">${money(s.v)}</b>${s.lat ? ` <a href="https://www.google.com/maps/search/?api=1&query=${esc(s.lat)},${esc(s.lon)}" target="_blank" rel="noopener" aria-label="Ver ${esc(s.n)} en el mapa">📍</a>` : ""}</span></div>`).join("")}</div>`;
+}
+
+function render() {
+  const q = norm($("#q").value.trim());
+  const items = DATA.filter(d => (rubro === "Todos" || d.rubro === rubro) && (!q || norm(d.nombre).includes(q)));
+  $("#cuenta").textContent = `${items.length} de ${DATA.length}${rubro !== "Todos" ? " · " + rubro : ""}`;
+  $("#list").innerHTML = items.length ? items.map(d => {
+    const m = minOf(d), max = Math.max(...avail(d).map(c => pr(d, c)));
+    const inCart = cart.has(d.ean), isOpen = open.has(d.ean);
+    const sinDato = CAD.filter(c => pr(d, c) == null).map(c => `<div class="pr na"><span class="cn"><span>${esc(c)}</span></span><span class="sub" style="color:var(--mute)">sin dato</span></div>`).join("");
+    const rows = avail(d).sort((a, b) => pr(d, a) - pr(d, b)).map(c => {
+      const v = pr(d, c), vals = d.b && d.b[c] ? Object.values(d.b[c]) : null;
+      const lo = vals && Math.min(...vals), hi = vals && Math.max(...vals), varia = vals && hi > lo;
+      const key = d.ean + "|" + c;
+      return `<div class="pr ${c === m ? "min" : ""}"><span class="cn"><span>${esc(c)}${sel[c] ? `<small>${esc(sucName(c, sel[c]))}</small>` : ""}</span></span>
+        <div class="bar2"><i style="width:${(v / max * 100).toFixed(0)}%"></i></div>
+        <b class="num">${money(v)}${c !== m ? `<span class="pct">+${Math.round((v / pr(d, m) - 1) * 100)}%</span>` : ""}${chg(d, c)}</b></div>${verifHtml(d, c)}`
+        + (varia ? `<div class="rng">${money(lo)} a ${money(hi)} según sucursal
+            <button class="link" data-bl="${esc(key)}" aria-expanded="${openB.has(key)}">${openB.has(key) ? "ocultar" : "ver cuál"}</button></div>${openB.has(key) ? branchList(d, c) : ""}` : "");
+    }).join("") + sinDato;
+    return `<article class="card"><div class="ctop">${pic(d)}
+      <div class="who"><div class="name">${esc(d.nc || d.nombre)}</div>${chipsInfo(d)}<div class="rubro">${esc(d.rubro)}</div>${tieneVerif(d) ? `<span class="vchip">✓ verificado en góndola</span>` : ""}</div>
+      <div class="best"><div class="price num">${money(pr(d, m))}</div><span class="chain">${esc(m)}</span></div></div>
+      <div class="row"><button class="link" data-o="${esc(d.ean)}" aria-expanded="${isOpen}">${isOpen ? "Ocultar precios" : `Ver las ${CAD.length} cadenas`}</button>
+      <button class="add" aria-pressed="${inCart}" data-a="${esc(d.ean)}">${inCart ? "✓ En la canasta" : "+ Agregar"}</button></div>
+      ${isOpen ? `<div class="prices">${rows}${avisosOn() ? `<div style="text-align:right"><button class="link" data-av="${esc(d.ean)}">¿Viste otro precio? Avisanos</button></div>` : ""}</div>` : ""}</article>`;
+  }).join("") : `<div class="empty">No encontré productos con “${esc($("#q").value)}”. Probá con otra palabra o elegí un rubro.</div>`;
+  $("#bcount").textContent = cart.size;
+  renderHero(); renderCats(); renderDeals(); header();
+  $("#footaviso").hidden = !avisosOn();
+}
+
+/* ---------- paneles ---------- */
+function sheet() {
+  $("#sheet").className = "sheet";
+  const items = DATA.filter(d => cart.has(d.ean));
+  if (!items.length) {
+    $("#sheet").innerHTML = `<h2>Tu canasta</h2><div class="vacio">Todavía no agregaste productos.<br>Tocá “+ Agregar” y te decimos en qué súper te conviene.</div>
+      <p style="text-align:center;margin:0"><button class="btn p" id="close">Elegir productos</button></p>`;
+    return $("#panel").classList.add("open");
+  }
+  // Solo se comparan los totales de las cadenas que informan TODOS los productos elegidos
+  const falta = Object.fromEntries(CAD.map(c => [c, items.filter(d => pr(d, c) == null)]));
+  const tot = Object.fromEntries(CAD.map(c => [c, items.reduce((s, d) => s + (pr(d, c) || 0), 0)]));
+  const order = CAD.filter(c => !falta[c].length).sort((a, b) => tot[a] - tot[b]);
+  const incompletas = CAD.filter(c => falta[c].length);
+  const mix = items.reduce((s, d) => s + pr(d, minOf(d)), 0);
+  const ahorro = tot[order[0]] - mix;
+  const by = {};
+  items.forEach(d => (by[minOf(d)] = by[minOf(d)] || []).push(d));
+  const ns = Object.keys(by).length;
+  $("#sheet").innerHTML = `<h2>Tu canasta (${items.length})</h2>
+    <div class="sub">Total comprando todo en un solo lugar:</div>
+    ${order.map((c, i) => `<div class="tot ${i === 0 ? "win" : ""}"><span class="cn"><span>${esc(c)}${sel[c] ? ` <small class="sub">(${esc(sucName(c, sel[c]))})</small>` : ""}${i === 0 ? " · más barato en tu canasta" : ""}</span></span><b class="num">${money(tot[c])}</b></div>`).join("")}
+    ${incompletas.map(c => `<div class="tot" style="opacity:.75"><span>${esc(c)}<br><small class="sub">No informa ${falta[c].length} de tus productos (${esc(falta[c].slice(0, 2).map(d => d.nombre).join(", "))}${falta[c].length > 2 ? "…" : ""}); no se puede comparar el total.</small></span><b>—</b></div>`).join("")}
+    <div class="mix"><b>Comprando cada cosa donde sale menos: ${money(mix)}</b>
+      <small>${ahorro > 1 ? `Ahorrás ${money(ahorro)} más que en ${esc(order[0])}, pero recorriendo ${ns} súper${ns > 1 ? "s" : ""}.` : `Es lo mismo que comprar todo en ${esc(order[0])}.`}</small></div>
+    ${Object.entries(by).map(([c, ds]) => `<h3 class="cn" style="margin:16px 0 4px;font-size:1rem"><span>En ${esc(c)}</span></h3>${ds.map(d => `<div class="li"><span>${esc(d.nombre)}</span><b class="num">${money(pr(d, c))}</b></div>`).join("")}`).join("")}
+    <div class="promo mini" role="note"><svg class="ico"><use href="#i-tag"/></svg><span>Pueden variar según las <b>PROMOS</b> de cada súper: es el precio de lista más la promo general que informa la cadena.</span></div>
+    <p style="text-align:center;margin:18px 0 0"><button class="btn s" id="close">Seguir mirando</button>
+    <button class="link" id="clear">Vaciar canasta</button></p>`;
+  $("#panel").classList.add("open");
+}
+
+// Elegir sucursal: para cada cadena que cobra distinto, ordenadas por lo que cuesta toda la canasta
+function sucSheet() {
+  $("#sheet").className = "sheet";
+  $("#sheet").innerHTML = `<h2>📍 Mi sucursal</h2>
+    <div class="sub">Estas cadenas cobran distinto según el local. Elegí a cuál vas y toda la página usa ese precio. Entre paréntesis, lo que cuestan hoy los ${DATA.length} productos de la canasta.</div>
+    ${Object.keys(SUC).map(c => {
+      const opts = SUC[c].map(s => ({ ...s, t: totalSuc(c, s.id) })).sort((a, b) => a.t - b.t);
+      return `<label for="s_${esc(c)}">${esc(c)}</label>
+        <select id="s_${esc(c)}" data-sel="${esc(c)}"><option value="">Todas · precio típico (${money(totalSuc(c, null))})</option>
+        ${opts.map(s => `<option value="${esc(s.id)}" ${sel[c] === s.id ? "selected" : ""}>${esc(s.n)}${dist[c] && dist[c][s.id] != null ? ` · a ${kmTxt(dist[c][s.id])}` : ""} (${money(s.t)})</option>`).join("")}</select>`;
+    }).join("")}
+    <p style="text-align:center;margin:18px 0 0"><button class="btn p" id="close">Listo</button></p>`;
+  $("#panel").classList.add("open");
+}
+
+/* ---------- avisos de usuarios: formulario con foto (Supabase; ver config-avisos.js) ---------- */
+const avisosOn = () => !!(window.AVISOS && AVISOS.url && AVISOS.key);
+/* ---------- capa "verificado en góndola": precios observados y confirmados a mano (ver supabase/capa_verificada.sql) ---------- */
+const VERIF_DIAS = 14;      // pasado ese tiempo una observación deja de mostrarse: un precio de góndola viejo engañaría
+let VERIF = {}, verifCargado = false;   // ean -> cadena -> observación
+const fechaCorta = iso => { const [, m, d] = iso.split("-"); return `${d}/${m}`; };
+const avisosCab = () => AVISOS.key.startsWith("sb_") ? { apikey: AVISOS.key } : { apikey: AVISOS.key, Authorization: "Bearer " + AVISOS.key };
+
+// Ojo: no se filtra por 'estado' en el pedido (esa columna no es pública). La base ya devuelve solo las filas verificadas.
+async function cargarVerificados() {
+  if (verifCargado || !avisosOn()) return;
+  verifCargado = true;
+  try {
+    const r = await fetch(`${AVISOS.url}/rest/v1/avisos?select=ean,cadena,sucursal,precio_visto,fecha_visto,verificado_fecha,nota_publica,tiene_foto&order=fecha_visto.desc&limit=300`, { headers: avisosCab() });
+    if (!r.ok) return;
+    const filas = await r.json(), hoy = Date.now(), v = {};
+    for (const f of filas) {
+      if (!f.ean || !f.cadena || !f.fecha_visto || !(f.precio_visto > 0)) continue;
+      const dias = (hoy - new Date(f.fecha_visto + "T12:00:00").getTime()) / 864e5;
+      if (dias > VERIF_DIAS || dias < -1) continue;
+      ((v[f.ean] = v[f.ean] || {})[f.cadena] = v[f.ean][f.cadena] || { p: +f.precio_visto, f: f.fecha_visto, suc: f.sucursal || "", nota: f.nota_publica || "", foto: !!f.tiene_foto });
+    }
+    VERIF = v; render();
+  } catch (e) { /* la capa es un extra: si falla, la página sigue igual */ }
+}
+const verifDe = (ean, c) => (VERIF[ean] || {})[c] || null;
+const tieneVerif = d => !!VERIF[d.ean] && Object.keys(VERIF[d.ean]).length > 0;
+const verifHtml = (d, c) => {
+  const v = verifDe(d.ean, c);
+  if (!v) return "";
+  return `<div class="vf" title="Precio visto en la góndola y confirmado por Canasta Salta. Puede ser una oferta del local: el precio informado a SEPA es el de lista.">✓ <b>Verificado en góndola</b>: <b class="num">${money(v.p)}</b>${v.suc ? ` en ${esc(v.suc)}` : ""} · ${fechaCorta(v.f)}${v.foto ? " · con foto de la etiqueta" : ""}${v.nota ? `<small>${esc(v.nota)}</small>` : ""}</div>`;
+};
+
+
+const FECHA_ISO = "2026-09-20";
+const FOLL = [{"c":"DIA","u":"https://diaonline.supermercadosdia.com.ar/folletos-salta-jujuy?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Folleto de Salta y Jujuy"},{"c":"Carrefour","u":"https://www.carrefour.com.ar/folletos?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Folletos y ofertas"},{"c":"Vea","u":"https://www.vea.com.ar/ofertas-y-catalogo?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Ofertas y catálogo"},{"c":"Changomas","u":"https://www.masonline.com.ar/folletos?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Folletos"},{"c":"Jumbo","u":"https://www.jumbo.com.ar/ofertas-y-catalogo?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Ofertas y catálogo"},{"c":"La Anónima","u":"https://www.laanonima.com.ar/empresa/catalogos?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Ofertas en sucursal"}];   // enlaces a los folletos oficiales (folletos.json); se revisan a diario (folletos.py)
+document.getElementById("foll").innerHTML = FOLL.map(f => `<a class="fol" href="${esc(f.u)}" target="_blank" rel="noopener"><strong>${esc(f.c)}</strong><small>${esc(f.n)}</small><em>${f.o ? "Ver folleto oficial" : "Ir al sitio de la cadena"} ↗</em></a>`).join("");
+const fechaAR = iso => iso.split("-").reverse().join("/");
+const selloHtml = () => `<div class="sello" role="note"><span><svg class="ico"><use href="#i-cart"/></svg><b>EN ESTA CANASTA</b><small>${comunes.length} productos que informan las ${CAD.length} cadenas</small></span><span><svg class="ico"><use href="#i-cal"/></svg><b>AL ${fechaAR(FECHA_ISO).slice(0, 5)}</b><small>datos de ese día</small></span></div>`;
+let avisoT0 = 0;
+// "2.450", "2450", "2450,50", "$ 2.450" -> número
+const parsePrecio = s => {
+  let t = String(s).replace(/[^\d.,]/g, "");
+  if (!t) return NaN;
+  if (t.includes(",")) t = t.replace(/\./g, "").replace(",", ".");
+  else if (/^\d{1,3}(\.\d{3})+$/.test(t)) t = t.replace(/\./g, "");
+  return parseFloat(t);
+};
+
+function avisoMostrado() {
+  const d = DATA.find(x => x.ean === $("#av_prod").value), c = $("#av_cad").value;
+  const v = d && c ? pr(d, c) : null;
+  $("#av_mostrado").textContent = v == null ? "—" : `${money(v)} (datos al ${fechaAR(FECHA_ISO)})`;
+}
+
+function avisoSheet(ean, cadena) {
+  $("#sheet").className = "sheet";
+  const hoy = new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+  const contacto = window.AVISOS && AVISOS.contacto ? esc(AVISOS.contacto) : "";
+  $("#sheet").innerHTML = `<h2>Avisanos si viste otro precio</h2>
+    <div class="sub">Compará la etiqueta de la góndola con el precio que mostramos. No publicamos nada sin verificarlo antes.</div>
+    <form id="faviso" novalidate autocomplete="off">
+      <label for="av_prod">Producto</label>
+      <select id="av_prod" name="ean" required><option value="">Elegí el producto</option>${DATA.map(d => `<option value="${esc(d.ean)}" ${d.ean === ean ? "selected" : ""}>${esc(d.nombre)}</option>`).join("")}</select>
+      <label for="av_cad">Supermercado</label>
+      <select id="av_cad" name="cadena" required><option value="">Elegí el súper</option>${CAD.map(c => `<option ${c === cadena ? "selected" : ""}>${esc(c)}</option>`).join("")}</select>
+      <div class="hint">Precio que mostramos: <b id="av_mostrado">—</b></div>
+      <label for="av_suc">Sucursal</label>
+      <input id="av_suc" name="sucursal" type="text" maxlength="120" placeholder="Ej.: Av. Entre Ríos 1816">
+      <label for="av_precio">Precio que viste en la góndola ($)</label>
+      <input id="av_precio" name="precio" type="text" inputmode="decimal" placeholder="Ej.: 2.450" required>
+      <label for="av_fecha">¿Cuándo lo viste?</label>
+      <input id="av_fecha" name="fecha" type="date" value="${hoy}" max="${hoy}" required>
+      <label for="av_foto">Foto de la etiqueta (recomendado)</label>
+      <input id="av_foto" name="foto" type="file" accept="image/*">
+      <div class="hint">Que se lea el precio y el nombre del producto. Si sale un ticket, tapá tus datos y los de tu tarjeta.</div>
+      <label for="av_com">Algo más que quieras contarnos (opcional)</label>
+      <textarea id="av_com" name="comentario" maxlength="500" placeholder="Ej.: la etiqueta decía otro precio que en caja…"></textarea>
+      <label for="av_con">Tu contacto (opcional)</label>
+      <input id="av_con" name="contacto" type="text" maxlength="120" placeholder="Mail o WhatsApp, por si necesitamos preguntarte algo">
+      <input class="hp" name="web" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label class="consent"><input id="av_ok" name="ok" type="checkbox"><span>Acepto que usen estos datos para verificar el precio. Nunca se publican con mi nombre o contacto.</span></label>
+      <details><summary>¿Qué hacemos con tus datos?</summary>
+        <p>Guardamos lo que completes y la foto, solo para verificar el precio y corregir la página. Los ve únicamente quien administra el proyecto; no se publican con tu nombre ni contacto y no se comparten con las cadenas. Los borramos pasado un año.${contacto ? ` Para pedir que borremos tu aviso: ${contacto}.` : ""}</p></details>
+      <div class="promo mini"><svg class="ico"><use href="#i-tag"/></svg><span>Si te <b>cobraron en caja más</b> que el precio exhibido, guardá el ticket y hacé el reclamo en <a href="https://consumidorsalta.gob.ar/" target="_blank" rel="noopener">Defensa del Consumidor de Salta</a> o en el <a href="https://www.argentina.gob.ar/iniciar-un-reclamo-ante-defensa-del-consumidor" target="_blank" rel="noopener">reclamo nacional</a>. Nosotros no hacemos denuncias.</span></div>
+      <div id="av_msg" role="status" aria-live="polite"></div>
+      <p style="text-align:center;margin:16px 0 0"><button class="btn p" type="submit">Enviar aviso</button> <button class="link" type="button" id="close">Cancelar</button></p>
+    </form>`;
+  avisoT0 = Date.now(); avisoMostrado();
+  $("#panel").classList.add("open");
+}
+
+// Foto reducida en el teléfono (máx. 1280 px, JPEG): sube rápido y ocupa poco
+async function reducirFoto(file) {
+  const bmp = await createImageBitmap(file, { imageOrientation: "from-image" });
+  const k = Math.min(1, 1280 / Math.max(bmp.width, bmp.height));
+  const cv = document.createElement("canvas");
+  cv.width = Math.round(bmp.width * k); cv.height = Math.round(bmp.height * k);
+  cv.getContext("2d").drawImage(bmp, 0, 0, cv.width, cv.height);
+  return await new Promise(r => cv.toBlob(r, "image/jpeg", 0.8));
+}
+
+async function enviarAviso(f) {
+  const msg = $("#av_msg"), btn = f.querySelector("button[type=submit]");
+  const err = t => { msg.innerHTML = `<div class="err">${t}</div>`; };
+  if (f.elements.web.value) return;                                   // trampa para bots: los humanos no ven este campo
+  if (Date.now() - avisoT0 < 2500) return err("Un momento… probá de nuevo en unos segundos.");
+  let ult = 0; try { ult = +localStorage.getItem("cs_av_t") || 0; } catch (e) {}
+  if (Date.now() - ult < 30000) return err("Ya enviaste un aviso hace un momento. Esperá unos segundos para mandar otro.");
+  const d = DATA.find(x => x.ean === f.elements.ean.value), cad = f.elements.cadena.value, precio = parsePrecio(f.elements.precio.value);
+  if (!d) return err("Elegí el producto.");
+  if (!cad) return err("Elegí el supermercado.");
+  if (!(precio >= 1 && precio <= 10000000)) return err("Escribí el precio que viste, solo números. Ej.: 2450.");
+  if (!f.elements.fecha.value) return err("Indicá cuándo lo viste.");
+  if (!f.elements.ok.checked) return err("Para enviar el aviso tenés que aceptar el uso de los datos.");
+  const file = f.elements.foto.files[0];
+  if (file && !file.type.startsWith("image/")) return err("El archivo tiene que ser una imagen.");
+  btn.disabled = true; msg.innerHTML = `<div class="ok">Enviando…</div>`;
+  const cab = avisosCab();   // las claves nuevas (sb_publishable_...) van solo en apikey; las anteriores (eyJ...) también en Authorization
+  try {
+    let ruta = null;
+    if (file) {
+      const blob = await reducirFoto(file);
+      if (!blob || blob.size > 3 * 1024 * 1024) throw new Error("foto");
+      ruta = `${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}.jpg`;
+      const r1 = await fetch(`${AVISOS.url}/storage/v1/object/fotos-avisos/${ruta}`, { method: "POST", headers: { ...cab, "Content-Type": "image/jpeg" }, body: blob });
+      if (!r1.ok) throw new Error("subida " + r1.status);
+    }
+    const r2 = await fetch(`${AVISOS.url}/rest/v1/avisos`, {
+      method: "POST", headers: { ...cab, "Content-Type": "application/json", Prefer: "return=minimal" },
+      body: JSON.stringify({ ean: d.ean, producto: d.nombre, cadena: cad, sucursal: f.elements.sucursal.value.trim() || null,
+        precio_mostrado: pr(d, cad), fecha_datos: FECHA_ISO, precio_visto: precio, fecha_visto: f.elements.fecha.value,
+        comentario: f.elements.comentario.value.trim() || null, contacto: f.elements.contacto.value.trim() || null,
+        foto: ruta, consentimiento: true }) });
+    if (!r2.ok) throw new Error("aviso " + r2.status);
+    try { localStorage.setItem("cs_av_t", String(Date.now())); } catch (e) {}
+    $("#sheet").innerHTML = `<h2>¡Gracias por avisarnos!</h2>
+      <div class="ok">Recibimos tu aviso. Lo vamos a verificar antes de mostrar nada en la página.</div>
+      <p class="hint">Si además te cobraron de más en caja, guardá el ticket y reclamá en <a href="https://consumidorsalta.gob.ar/" target="_blank" rel="noopener">Defensa del Consumidor de Salta</a>.</p>
+      <p style="text-align:center;margin:16px 0 0"><button class="btn p" id="close">Cerrar</button></p>`;
+  } catch (e) {
+    btn.disabled = false;
+    err(e.message === "foto" ? "No pudimos procesar la foto. Probá con otra o enviá el aviso sin foto." : "No pudimos enviar el aviso. Revisá tu conexión y probá de nuevo.");
+  }
+}
+
+const cerrar = () => { $("#panel").classList.remove("open"); render(); };
+let scrolled = false;
+document.addEventListener("click", e => {
+  const t = e.target.closest("button, .panel");
+  if (!t) return;
+  if (t.dataset.r) { rubro = t.dataset.r; render(); $("#productos").scrollIntoView(); }
+  else if (t.dataset.a) { cart.has(t.dataset.a) ? cart.delete(t.dataset.a) : cart.add(t.dataset.a); save(); render(); }
+  else if (t.dataset.o) { open.has(t.dataset.o) ? open.delete(t.dataset.o) : open.add(t.dataset.o); render(); }
+  else if (t.dataset.bl) { openB.has(t.dataset.bl) ? openB.delete(t.dataset.bl) : openB.add(t.dataset.bl); render(); }
+  else if (t.dataset.s) { const [c, id] = t.dataset.s.split("|"); sel[c] === id ? delete sel[c] : sel[c] = id; geoText = ""; save(); render(); }
+  else if (t.dataset.av !== undefined) avisoSheet(t.dataset.av);
+  else if (t.id === "bopen") sheet();
+  else if (t.id === "brank") rankSheet();
+  else if (t.id === "bsuc") sucSheet();
+  else if (t.id === "bgeo") locate();
+  else if (t.id === "close" || (t.id === "panel" && e.target === t)) cerrar();
+  else if (t.id === "clear") { cart.clear(); save(); cerrar(); }
+});
+document.addEventListener("change", e => {
+  const c = e.target.dataset && e.target.dataset.sel;
+  if (!c) return;
+  e.target.value ? sel[c] = e.target.value : delete sel[c];
+  geoText = ""; save(); render();
+});
+document.addEventListener("change", e => { if (e.target.id === "av_prod" || e.target.id === "av_cad") avisoMostrado(); });
+document.addEventListener("submit", e => { if (e.target.id === "faviso") { e.preventDefault(); enviarAviso(e.target); } });
+$("#q").addEventListener("input", () => {
+  render();
+  if ($("#q").value.trim() && !scrolled) { scrolled = true; $("#productos").scrollIntoView(); }
+  if (!$("#q").value.trim()) scrolled = false;
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape" && $("#panel").classList.contains("open")) cerrar(); });
+// el logo chico de la barra pegajosa aparece recién cuando el logo grande sale de pantalla
+try { new IntersectionObserver(([e]) => $("#top").classList.toggle("scrolled", !e.isIntersecting)).observe(document.querySelector(".brandbar")); } catch (e) {}
+render();
+cargarVerificados();
+</script>
+</body>
+</html>
