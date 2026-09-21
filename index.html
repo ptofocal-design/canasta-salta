@@ -152,6 +152,8 @@ section{padding:30px 0 6px}
 .cat b{display:block;font-size:.78rem;font-weight:700;line-height:1.2}
 .cat small{color:var(--mute);font-size:.68rem}
 
+/* al buscar: solo resultados, sin la portada de por medio */
+main.buscando .hero,main.buscando section[aria-labelledby="h-rubros"],main.buscando .banners,main.buscando #difs,main.buscando #folletos,main.buscando #como{display:none}
 /* folletos */
 .foll{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(min-width:760px){.foll{grid-template-columns:repeat(3,1fr);gap:12px}}
@@ -950,9 +952,11 @@ document.addEventListener("submit", e => { if (e.target.id === "faviso") { e.pre
 let buscoYa = false;
 $("#q").addEventListener("input", () => {
   if (!buscoYa && $("#q").value.trim()) { buscoYa = true; medir("buscar"); }   // solo se cuenta que se buscó, nunca qué
+  const hay = !!$("#q").value.trim();
+  document.querySelector("main").classList.toggle("buscando", hay);   // al buscar se esconde el resto de la portada: los resultados quedan justo debajo del buscador
   render();
-  if ($("#q").value.trim() && !scrolled) { scrolled = true; $("#productos").scrollIntoView(); }
-  if (!$("#q").value.trim()) scrolled = false;
+  if (hay && !scrolled) { scrolled = true; window.scrollTo({ top: 0 }); }
+  if (!hay) scrolled = false;
 });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && $("#panel").classList.contains("open")) cerrar(); });
 // el logo chico de la barra pegajosa aparece recién cuando el logo grande sale de pantalla
