@@ -1,0 +1,302 @@
+{
+ "8480017005045": {
+  "tienda": "dia",
+  "titulo": "Leche Semi Descremada DIA Larga Vida 1 Lt.",
+  "retocada_con_ia": false
+ },
+ "7791720029473": {
+  "tienda": "carrefour",
+  "titulo": "Leche parcialmente descremada UAT Carrefour classic tetra 1 lt.",
+  "retocada_con_ia": false
+ },
+ "8480017037428": {
+  "tienda": "dia",
+  "titulo": "Dulce de Leche Dia 400 Gr.",
+  "retocada_con_ia": false
+ },
+ "7791720029725": {
+  "tienda": "carrefour",
+  "titulo": "Dulce de leche familiar Carrefour classic en pote 400 g.",
+  "retocada_con_ia": false
+ },
+ "8480017303325": {
+  "tienda": "dia",
+  "titulo": "Manteca DIA Calidad Extra 200 Gr.",
+  "retocada_con_ia": true
+ },
+ "7798152226326": {
+  "tienda": "carrefour",
+  "titulo": "Manteca Classic calidad extra 200 g.",
+  "retocada_con_ia": false
+ },
+ "8480017107787": {
+  "tienda": "dia",
+  "titulo": "Queso Cremoso Clásico Dia 290 Gr.",
+  "retocada_con_ia": false
+ },
+ "7791720028490": {
+  "tienda": "carrefour",
+  "titulo": "Queso crema Carrefour classic tradicional 290 g.",
+  "retocada_con_ia": true
+ },
+ "8480017251398": {
+  "tienda": "dia",
+  "titulo": "Yerba Especial Dia Sin TACC 500 Gr.",
+  "retocada_con_ia": false
+ },
+ "7791720049747": {
+  "tienda": "carrefour",
+  "titulo": "Yerba mate suave con palo Carrefour Classic 500 grs",
+  "retocada_con_ia": false
+ },
+ "7799120003994": {
+  "tienda": "masonline",
+  "titulo": "Yerba Mate Check 500 G",
+  "retocada_con_ia": false
+ },
+ "8480017241610": {
+  "tienda": "dia",
+  "titulo": "Yerba Mate Dia Elaborado Con Palo 1 Kg.",
+  "retocada_con_ia": false
+ },
+ "7791720049761": {
+  "tienda": "carrefour",
+  "titulo": "Yerba mate suave con palo Carrefour Classic 1 kg",
+  "retocada_con_ia": false
+ },
+ "7799120004007": {
+  "tienda": "masonline",
+  "titulo": "Yerba Mate Check 1 Kg",
+  "retocada_con_ia": false
+ },
+ "7791720024836": {
+  "tienda": "carrefour",
+  "titulo": "Té en saquitos Carrefour Classic sin TACC x 25 un.",
+  "retocada_con_ia": false
+ },
+ "8480017241160": {
+  "tienda": "dia",
+  "titulo": "Café Molido DIA Intenso 500 Gr.",
+  "retocada_con_ia": false
+ },
+ "7798108340878": {
+  "tienda": "carrefour",
+  "titulo": "Café molido torrado Carrefour Classic 500 grs",
+  "retocada_con_ia": false
+ },
+ "8480017241153": {
+  "tienda": "dia",
+  "titulo": "Café Molido DIA Intenso 250 Gr.",
+  "retocada_con_ia": false
+ },
+ "7798033330500": {
+  "tienda": "carrefour",
+  "titulo": "Café molido torrado Carrefour Classic 250 grs",
+  "retocada_con_ia": false
+ },
+ "8480017298515": {
+  "tienda": "dia",
+  "titulo": "Azúcar Plus DIA Común tipo A 1 Kg.",
+  "retocada_con_ia": false
+ },
+ "7799120000405": {
+  "tienda": "masonline",
+  "titulo": "Azucar Check Comun Tipo A 1kg",
+  "retocada_con_ia": false
+ },
+ "8480017241146": {
+  "tienda": "dia",
+  "titulo": "Aceite de Girasol Dia 1,5 Lt.",
+  "retocada_con_ia": false
+ },
+ "8480017557452": {
+  "tienda": "dia",
+  "titulo": "Arroz Largo Fino 00000 Dia 1 Kg.",
+  "retocada_con_ia": false
+ },
+ "7791720033074": {
+  "tienda": "carrefour",
+  "titulo": "Arroz largo fino 00000 Carrefour Classic en bolsa 1 kg.",
+  "retocada_con_ia": false
+ },
+ "8480017268693": {
+  "tienda": "dia",
+  "titulo": "Fideos Spaghetti Dia 500 Gr.",
+  "retocada_con_ia": false
+ },
+ "7791720026304": {
+  "tienda": "carrefour",
+  "titulo": "Fideos de sémola cinta spaghetti Carrefour classic 500 g.",
+  "retocada_con_ia": false
+ },
+ "7798270245131": {
+  "tienda": "masonline",
+  "titulo": "Fideos Aliada Spaghetti 500 G",
+  "retocada_con_ia": false
+ },
+ "7790147547294": {
+  "tienda": "jumbo",
+  "titulo": "Fideos Spaghetti 500 Grs Maxima",
+  "retocada_con_ia": false
+ },
+ "7791720026311": {
+  "tienda": "carrefour",
+  "titulo": "Fideos cinta tallarin Carrefour classic 500 g.",
+  "retocada_con_ia": false
+ },
+ "7798270245148": {
+  "tienda": "masonline",
+  "titulo": "Fideos Aliada Tallarin 500 G",
+  "retocada_con_ia": false
+ },
+ "7792052091282": {
+  "tienda": "jumbo",
+  "titulo": "Tallarines 500 Grs Cuisine & Co",
+  "retocada_con_ia": false
+ },
+ "8480017242723": {
+  "tienda": "dia",
+  "titulo": "Harina de Trigo 000 DIA 1 Kg.",
+  "retocada_con_ia": false
+ },
+ "7792180144034": {
+  "tienda": "carrefour",
+  "titulo": "Harina 000 Carrefour Classic 1 kg",
+  "retocada_con_ia": false
+ },
+ "7798153719247": {
+  "tienda": "masonline",
+  "titulo": "Harina Check 000 1 Kg",
+  "retocada_con_ia": false
+ },
+ "8480017555380": {
+  "tienda": "dia",
+  "titulo": "Sal Fina DIA 500 Gr.",
+  "retocada_con_ia": false
+ },
+ "7798159716455": {
+  "tienda": "carrefour",
+  "titulo": "Sal fina Carrefour Classic en bolsa 500 grs",
+  "retocada_con_ia": false
+ },
+ "8480017555397": {
+  "tienda": "dia",
+  "titulo": "Sal Gruesa DIA 1 Kg.",
+  "retocada_con_ia": false
+ },
+ "7798159716479": {
+  "tienda": "carrefour",
+  "titulo": "Sal gruesa Carrefour Classic 1 kg",
+  "retocada_con_ia": false
+ },
+ "8480017229755": {
+  "tienda": "dia",
+  "titulo": "Polenta Cocción Rápida Dia 500 Gr.",
+  "retocada_con_ia": false
+ },
+ "7798033339572": {
+  "tienda": "carrefour",
+  "titulo": "Polenta instantánea Carrefour Classic 500 grs",
+  "retocada_con_ia": false
+ },
+ "7798141711031": {
+  "tienda": "carrefour",
+  "titulo": "Puré de tomate Carrefour classic 520 g.",
+  "retocada_con_ia": false
+ },
+ "7791720037904": {
+  "tienda": "carrefour",
+  "titulo": "Tomate perita Carrefour Extra 400 g.",
+  "retocada_con_ia": false
+ },
+ "7798033333907": {
+  "tienda": "carrefour",
+  "titulo": "Lomito de atún al natural Carrefour Classic 170 grs",
+  "retocada_con_ia": false
+ },
+ "8480017204905": {
+  "tienda": "dia",
+  "titulo": "Mayonesa DIA 500 Ml.",
+  "retocada_con_ia": false
+ },
+ "8480017068873": {
+  "tienda": "dia",
+  "titulo": "Rebozador Dia 500 Gr.",
+  "retocada_con_ia": false
+ },
+ "7798141714810": {
+  "tienda": "carrefour",
+  "titulo": "Rebozador Carrefour classic 500 g.",
+  "retocada_con_ia": false
+ },
+ "8480017298607": {
+  "tienda": "dia",
+  "titulo": "Galletitas Crackers Dia 505 Gr.",
+  "retocada_con_ia": false
+ },
+ "7798270243861": {
+  "tienda": "masonline",
+  "titulo": "Galletitas De Agua Check Pentapack 505g",
+  "retocada_con_ia": false
+ },
+ "7791720030059": {
+  "tienda": "carrefour",
+  "titulo": "Choclo amarillo en granos Carrefour Classic 300 grs",
+  "retocada_con_ia": false
+ },
+ "7799120005110": {
+  "tienda": "masonline",
+  "titulo": "Choclo Check En Granos 300 G",
+  "retocada_con_ia": false
+ },
+ "8480017288318": {
+  "tienda": "dia",
+  "titulo": "Gaseosa Cola Sin Tacc Dia 2,25 Lt.",
+  "retocada_con_ia": false
+ },
+ "7798159715731": {
+  "tienda": "carrefour",
+  "titulo": "Gaseosa cola Carrefour Classic 2,25 lts",
+  "retocada_con_ia": false
+ },
+ "7798270245636": {
+  "tienda": "masonline",
+  "titulo": "Gaseosa Aliada Cola 2.25 L",
+  "retocada_con_ia": false
+ },
+ "7798270242789": {
+  "tienda": "masonline",
+  "titulo": "Agua Mineral Sin Gas Check 2 L",
+  "retocada_con_ia": false
+ },
+ "7791720037836": {
+  "tienda": "carrefour",
+  "titulo": "Salchichas clásicas Carrefour Classic flowpack 6 uni",
+  "retocada_con_ia": false
+ },
+ "8480017240699": {
+  "tienda": "dia",
+  "titulo": "Lavandina DIA Tradicional 1 Lt.",
+  "retocada_con_ia": false
+ },
+ "7798270247142": {
+  "tienda": "masonline",
+  "titulo": "Lavandina Aliada 1lt",
+  "retocada_con_ia": false
+ },
+ "7798159718985": {
+  "tienda": "carrefour",
+  "titulo": "Papel higiénico hoja simple Carrefour Essential 4 x 80 m.",
+  "retocada_con_ia": false
+ },
+ "7791720050231": {
+  "tienda": "carrefour",
+  "titulo": "Jabón de tocador Carrefour Soft Lirios Blancos 125 grs",
+  "retocada_con_ia": false
+ },
+ "7798141714704": {
+  "tienda": "carrefour",
+  "titulo": "Pasta dental Carrefour Soft doble fluor 90 g.",
+  "retocada_con_ia": false
+ }
+}
