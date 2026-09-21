@@ -1,0 +1,20 @@
+{
+  "name": "Canasta Salta",
+  "short_name": "Canasta Salta",
+  "description": "Compará los precios de la canasta básica en los supermercados de Salta capital, con datos oficiales del Estado.",
+  "lang": "es-AR",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#4E020B",
+  "theme_color": "#6A0913",
+  "categories": ["shopping", "lifestyle"],
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
