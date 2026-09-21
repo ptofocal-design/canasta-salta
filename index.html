@@ -152,6 +152,7 @@ section{padding:30px 0 6px}
 @media(min-width:760px){.foll{grid-template-columns:repeat(3,1fr);gap:12px}}
 .fol{display:flex;flex-direction:column;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow-s);transition:transform .12s,border-color .12s}
 .fol:hover{transform:translateY(-2px);border-color:var(--brand)}
+.foll-sub{font-size:1rem;font-weight:800;margin:14px 0 8px;color:var(--ink)}
 .fol strong{font-size:1.05rem;font-weight:800;letter-spacing:-.01em}
 .fol small{color:var(--mute);font-size:.72rem;font-weight:600}
 .fol em{font-style:normal;color:var(--brand);font-weight:800;font-size:.8rem;margin-top:4px}
@@ -427,9 +428,11 @@ footer .fine{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);padding
   </section>
 
   <section id="folletos" aria-labelledby="h-foll">
-    <div class="sec-h"><h2 id="h-foll">Folletos de la semana</h2><span class="note">Directo a la página oficial de cada cadena</span></div>
+    <div class="sec-h"><h2 id="h-foll">Folletos de la semana</h2><span class="note">Directo a la página oficial de cada comercio</span></div>
     <div class="foll" id="foll"></div>
-    <p class="note" style="color:var(--mute);font-size:.78rem;margin:0">Te llevamos al sitio de cada cadena, que es quien publica sus ofertas. Pueden variar según la sucursal y algunas no rigen en Salta. Canasta Salta no está afiliada a las cadenas.</p>
+    <h3 class="foll-sub">Mayoristas</h3>
+    <div class="foll" id="foll-may"></div>
+    <p class="note" style="color:var(--mute);font-size:.78rem;margin:0">Te llevamos al sitio de cada comercio, que es quien publica sus ofertas. Pueden variar según la sucursal y algunas no rigen en Salta. En los mayoristas, el precio puede ser por unidad o por cantidad, con o sin IVA, y algunos piden registro como comerciante: fijate las condiciones en su folleto. Canasta Salta no está afiliada a ninguno de estos comercios.</p>
   </section>
 
   <section id="productos" aria-labelledby="h-prod">
@@ -778,9 +781,11 @@ const medir = (t, d) => { try { window.track && window.track(t, d); } catch (e) 
   rankSheet = function () { medir("ranking"); return f0.apply(this, arguments); };
   locate = function () { medir("ubicacion"); return f1.apply(this, arguments); };
   avisoSheet = function () { medir("aviso_abrir"); return f2.apply(this, arguments); }; }
-const FOLL = [{"c":"DIA","u":"https://diaonline.supermercadosdia.com.ar/folletos-salta-jujuy?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Folleto de Salta y Jujuy"},{"c":"Carrefour","u":"https://www.carrefour.com.ar/folletos?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Folletos y ofertas"},{"c":"Vea","u":"https://www.vea.com.ar/ofertas-y-catalogo?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Ofertas y catálogo"},{"c":"Changomas","u":"https://www.masonline.com.ar/folletos?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Folletos"},{"c":"Jumbo","u":"https://www.jumbo.com.ar/ofertas-y-catalogo?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Ofertas y catálogo"},{"c":"La Anónima","u":"https://www.laanonima.com.ar/empresa/catalogos?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Ofertas en sucursal"}];   // enlaces a los folletos oficiales (folletos.json); se revisan a diario (folletos.py)
-document.getElementById("foll").addEventListener("click", e => { const a = e.target.closest("a.fol"); if (a) medir("folleto", a.querySelector("strong").textContent); });
-document.getElementById("foll").innerHTML = FOLL.map(f => `<a class="fol" href="${esc(f.u)}" target="_blank" rel="noopener"><strong>${esc(f.c)}</strong><small>${esc(f.n)}</small><em>${f.o ? "Ver folleto oficial" : "Ir al sitio de la cadena"} ↗</em></a>`).join("");
+const FOLL = [{"c":"DIA","u":"https://diaonline.supermercadosdia.com.ar/folletos-salta-jujuy?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Folleto de Salta y Jujuy","g":"supermercados"},{"c":"Carrefour","u":"https://www.carrefour.com.ar/folletos?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Folletos y ofertas","g":"supermercados"},{"c":"Vea","u":"https://www.vea.com.ar/ofertas-y-catalogo?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Ofertas y catálogo","g":"supermercados"},{"c":"Changomas","u":"https://www.masonline.com.ar/folletos?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Folletos","g":"supermercados"},{"c":"Jumbo","u":"https://www.jumbo.com.ar/ofertas-y-catalogo?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Ofertas y catálogo","g":"supermercados"},{"c":"La Anónima","u":"https://www.laanonima.com.ar/empresa/catalogos?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Ofertas en sucursal","g":"supermercados"},{"c":"Yaguar","u":"https://yaguar.com.ar/salta/catalogos-y-ofertas/?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Catálogos y ofertas de Salta","g":"mayoristas"},{"c":"Makro","u":"https://makro.com.ar/ofertas/salta/?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Ofertas de Salta","g":"mayoristas"},{"c":"Vital","u":"https://www.vital.com.ar/ofertas/?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Ofertas y catálogo","g":"mayoristas"},{"c":"El Milagro","u":"https://www.elmilagrosupermercados.com/?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Lácteos, fiambres y comestibles","g":"mayoristas"},{"c":"La Rotonda","u":"https://larotondamayorista.com.ar/?utm_source=canastasalta&utm_medium=referral","o":true,"n":"Ofertas de la semana","g":"mayoristas"}];   // enlaces a los folletos oficiales (folletos.json); se revisan a diario (folletos.py)
+document.getElementById("folletos").addEventListener("click", e => { const a = e.target.closest("a.fol"); if (a) medir("folleto", a.querySelector("strong").textContent); });
+const folBtn = f => `<a class="fol" href="${esc(f.u)}" target="_blank" rel="noopener"><strong>${esc(f.c)}</strong><small>${esc(f.n)}</small><em>${f.o ? "Ver folleto oficial" : "Ir al sitio"} ↗</em></a>`;
+document.getElementById("foll").innerHTML = FOLL.filter(f => f.g !== "mayoristas").map(folBtn).join("");
+document.getElementById("foll-may").innerHTML = FOLL.filter(f => f.g === "mayoristas").map(folBtn).join("");
 const fechaAR = iso => iso.split("-").reverse().join("/");
 const selloHtml = () => `<div class="sello" role="note"><span><svg class="ico"><use href="#i-cart"/></svg><b>EN ESTA CANASTA</b><small>${comunes.length} productos que informan las ${CAD.length} cadenas</small></span><span><svg class="ico"><use href="#i-cal"/></svg><b>AL ${fechaAR(FECHA_ISO).slice(0, 5)}</b><small>datos de ese día</small></span></div>`;
 let avisoT0 = 0;
