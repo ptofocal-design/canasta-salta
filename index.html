@@ -623,9 +623,9 @@ const promoHtml = p => {
   if (!p) return "";
   const fin = p.h ? (p.v ? `venció el ${fechaAR(p.h)}` : `hasta el ${fechaAR(p.h)}`) : "sin fecha de fin informada";
   const suc = p.s < p.n ? ` · solo en ${p.s} de ${p.n} sucursales` : "";
-  return `<div class="pm ${p.c ? "cond" : ""} ${p.v ? "venc" : ""}"><span class="pmt">${p.c ? "Promo condicional" : "Promo"}</span> ${esc(p.t)} · <b>${fin}</b>${suc} · precio de lista ${money(p.l)}${p.c ? " · no vale para cualquier compra" : ""}</div>`;
+  return `<div class="pm ${p.c ? "cond" : ""} ${p.v ? "venc" : ""}"><span class="pmt">${p.c ? "Promo condicional" : "Promo"}</span> ${esc(p.t)} · <b>${fin}</b>${suc} · ${p.c || p.v ? `<b>no la contamos</b>: mostramos el precio de lista ${money(p.l)} (con la promo saldría ${money(p.p)})` : `precio de lista ${money(p.l)}`}</div>`;
 };
-const pmChip = (d, c) => { const p = d.pm && d.pm[c]; return p ? `<span class="pmchip${p.c ? " cond" : ""}">${p.c ? "promo condicional" : "en promo"}${p.h ? " · hasta " + fechaAR(p.h).slice(0, 5) : ""}</span>` : ""; };
+const pmChip = (d, c) => { const p = d.pm && d.pm[c]; return p ? `<span class="pmchip${p.c ? " cond" : ""}">${p.c ? "promo condicional · no incluida" : p.v ? "promo vencida · no incluida" : "en promo"}${!p.c && !p.v && p.h ? " · hasta " + fechaAR(p.h).slice(0, 5) : ""}</span>` : ""; };
 const picAlt = x => x.f ? `<div class="e ph sm"><img src="assets/alt/${esc(x.i)}.webp?v=${esc(x.f)}" alt="" loading="lazy" onerror="this.parentNode.className='e sm'; this.remove()"></div>` : `<div class="e sm" aria-hidden="true"></div>`;
 const altHtml = d => {
   if (!d.alt) return "";
