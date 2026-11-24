@@ -9,6 +9,11 @@
   "titulo": "Leche parcialmente descremada UAT Carrefour classic tetra 1 lt.",
   "retocada_con_ia": false
  },
+ "7799120000993": {
+  "tienda": "masonline",
+  "titulo": "Leche Descremada Check Larga Vida 1l",
+  "retocada_con_ia": false
+ },
  "8480017037428": {
   "tienda": "dia",
   "titulo": "Dulce de Leche Dia 400 Gr.",
@@ -19,14 +24,29 @@
   "titulo": "Dulce de leche familiar Carrefour classic en pote 400 g.",
   "retocada_con_ia": false
  },
+ "7799044048699": {
+  "tienda": null,
+  "titulo": null,
+  "retocada_con_ia": false
+ },
  "8480017303325": {
   "tienda": "dia",
   "titulo": "Manteca DIA Calidad Extra 200 Gr.",
-  "retocada_con_ia": true
+  "retocada_con_ia": false
  },
  "7798152226326": {
   "tienda": "carrefour",
   "titulo": "Manteca Classic calidad extra 200 g.",
+  "retocada_con_ia": false
+ },
+ "7799044054522": {
+  "tienda": null,
+  "titulo": null,
+  "retocada_con_ia": false
+ },
+ "7798153715225": {
+  "tienda": "masonline",
+  "titulo": "Manteca Check 200 G",
   "retocada_con_ia": false
  },
  "8480017107787": {
@@ -37,7 +57,7 @@
  "7791720028490": {
   "tienda": "carrefour",
   "titulo": "Queso crema Carrefour classic tradicional 290 g.",
-  "retocada_con_ia": true
+  "retocada_con_ia": false
  },
  "8480017251398": {
   "tienda": "dia",
@@ -49,9 +69,19 @@
   "titulo": "Yerba mate suave con palo Carrefour Classic 500 grs",
   "retocada_con_ia": false
  },
+ "7799044943673": {
+  "tienda": null,
+  "titulo": null,
+  "retocada_con_ia": false
+ },
  "7799120003994": {
   "tienda": "masonline",
   "titulo": "Yerba Mate Check 500 G",
+  "retocada_con_ia": false
+ },
+ "7792052074759": {
+  "tienda": "jumbo",
+  "titulo": "Yerba Mate con Palo Tradicional 500 Grs Cuisine y Co",
   "retocada_con_ia": false
  },
  "8480017241610": {
@@ -64,14 +94,34 @@
   "titulo": "Yerba mate suave con palo Carrefour Classic 1 kg",
   "retocada_con_ia": false
  },
+ "7799044943666": {
+  "tienda": null,
+  "titulo": null,
+  "retocada_con_ia": false
+ },
  "7799120004007": {
   "tienda": "masonline",
   "titulo": "Yerba Mate Check 1 Kg",
   "retocada_con_ia": false
  },
+ "7792052074780": {
+  "tienda": "jumbo",
+  "titulo": "Yerba Mate Tradicional con Palo 1 Kg Cuisine y Co",
+  "retocada_con_ia": false
+ },
  "7791720024836": {
   "tienda": "carrefour",
   "titulo": "Té en saquitos Carrefour Classic sin TACC x 25 un.",
+  "retocada_con_ia": false
+ },
+ "7791720024843": {
+  "tienda": "carrefour",
+  "titulo": "Té clásico en saquitos Carrefour Classic sin TACC 50 uni",
+  "retocada_con_ia": false
+ },
+ "7798105580987": {
+  "tienda": "masonline",
+  "titulo": "Té En Saquitos Check 100 G 50 U",
   "retocada_con_ia": false
  },
  "8480017241160": {
@@ -104,9 +154,19 @@
   "titulo": "Azucar Check Comun Tipo A 1kg",
   "retocada_con_ia": false
  },
+ "7792052064569": {
+  "tienda": "jumbo",
+  "titulo": "Azúcar Común Tipo A 1 Kg Cuisine y Co",
+  "retocada_con_ia": false
+ },
  "8480017241146": {
   "tienda": "dia",
   "titulo": "Aceite de Girasol Dia 1,5 Lt.",
+  "retocada_con_ia": false
+ },
+ "7792180144836": {
+  "tienda": null,
+  "titulo": null,
   "retocada_con_ia": false
  },
  "8480017557452": {
@@ -117,6 +177,21 @@
  "7791720033074": {
   "tienda": "carrefour",
   "titulo": "Arroz largo fino 00000 Carrefour Classic en bolsa 1 kg.",
+  "retocada_con_ia": false
+ },
+ "7799044041959": {
+  "tienda": null,
+  "titulo": null,
+  "retocada_con_ia": false
+ },
+ "7798123134773": {
+  "tienda": "masonline",
+  "titulo": "Arroz Check Largo Fino 1 Kg",
+  "retocada_con_ia": false
+ },
+ "7792052998987": {
+  "tienda": "jumbo",
+  "titulo": "Arroz Largo Fino 1 Kg Cuisine y Co",
   "retocada_con_ia": false
  },
  "8480017268693": {
@@ -164,6 +239,11 @@
   "titulo": "Harina 000 Carrefour Classic 1 kg",
   "retocada_con_ia": false
  },
+ "7799044947015": {
+  "tienda": null,
+  "titulo": null,
+  "retocada_con_ia": false
+ },
  "7798153719247": {
   "tienda": "masonline",
   "titulo": "Harina Check 000 1 Kg",
@@ -179,6 +259,16 @@
   "titulo": "Sal fina Carrefour Classic en bolsa 500 grs",
   "retocada_con_ia": false
  },
+ "7799044068581": {
+  "tienda": null,
+  "titulo": null,
+  "retocada_con_ia": false
+ },
+ "7798270247241": {
+  "tienda": "masonline",
+  "titulo": "Sal Fina Aliada 500 G",
+  "retocada_con_ia": false
+ },
  "8480017555397": {
   "tienda": "dia",
   "titulo": "Sal Gruesa DIA 1 Kg.",
@@ -187,6 +277,11 @@
  "7798159716479": {
   "tienda": "carrefour",
   "titulo": "Sal gruesa Carrefour Classic 1 kg",
+  "retocada_con_ia": false
+ },
+ "7798270247234": {
+  "tienda": "masonline",
+  "titulo": "Sal Gruesa Aliada 1 Kg",
   "retocada_con_ia": false
  },
  "8480017229755": {
@@ -199,14 +294,49 @@
   "titulo": "Polenta instantánea Carrefour Classic 500 grs",
   "retocada_con_ia": false
  },
+ "0681131411332": {
+  "tienda": null,
+  "titulo": null,
+  "retocada_con_ia": false
+ },
+ "8480017299314": {
+  "tienda": "dia",
+  "titulo": "Puré de Tomate Dia 520 Gr.",
+  "retocada_con_ia": false
+ },
  "7798141711031": {
   "tienda": "carrefour",
   "titulo": "Puré de tomate Carrefour classic 520 g.",
   "retocada_con_ia": false
  },
+ "7799044000093": {
+  "tienda": null,
+  "titulo": null,
+  "retocada_con_ia": false
+ },
+ "7798270241492": {
+  "tienda": "masonline",
+  "titulo": "Puré De Tomate Check 520g",
+  "retocada_con_ia": false
+ },
  "7791720037904": {
   "tienda": "carrefour",
   "titulo": "Tomate perita Carrefour Extra 400 g.",
+  "retocada_con_ia": false
+ },
+ "7798024399974": {
+  "tienda": null,
+  "titulo": null,
+  "retocada_con_ia": false
+ },
+ "7799120000610": {
+  "tienda": "masonline",
+  "titulo": "Tomate Check Perita 400 G",
+  "retocada_con_ia": false
+ },
+ "8480017558121": {
+  "tienda": "dia",
+  "titulo": "Lomitos de Atún al Natural Dia 170 Gr.",
   "retocada_con_ia": false
  },
  "7798033333907": {
@@ -229,14 +359,29 @@
   "titulo": "Rebozador Carrefour classic 500 g.",
   "retocada_con_ia": false
  },
+ "0605388717474": {
+  "tienda": null,
+  "titulo": null,
+  "retocada_con_ia": false
+ },
  "8480017298607": {
   "tienda": "dia",
   "titulo": "Galletitas Crackers Dia 505 Gr.",
   "retocada_con_ia": false
  },
+ "7799044049658": {
+  "tienda": null,
+  "titulo": null,
+  "retocada_con_ia": false
+ },
  "7798270243861": {
   "tienda": "masonline",
   "titulo": "Galletitas De Agua Check Pentapack 505g",
+  "retocada_con_ia": false
+ },
+ "8480017260154": {
+  "tienda": "dia",
+  "titulo": "Dueto Arveja y Choclo DIA 300 Gr.",
   "retocada_con_ia": false
  },
  "7791720030059": {
@@ -269,9 +414,24 @@
   "titulo": "Agua Mineral Sin Gas Check 2 L",
   "retocada_con_ia": false
  },
+ "8480017288158": {
+  "tienda": "dia",
+  "titulo": "Salchichas Dia Cocidas sin Piel x 6 Ud.",
+  "retocada_con_ia": false
+ },
  "7791720037836": {
   "tienda": "carrefour",
   "titulo": "Salchichas clásicas Carrefour Classic flowpack 6 uni",
+  "retocada_con_ia": false
+ },
+ "7798270244349": {
+  "tienda": "masonline",
+  "titulo": "Salchichas Aliada 190 G 6 U",
+  "retocada_con_ia": false
+ },
+ "7799044945554": {
+  "tienda": null,
+  "titulo": null,
   "retocada_con_ia": false
  },
  "8480017240699": {
@@ -298,129 +458,5 @@
   "tienda": "carrefour",
   "titulo": "Pasta dental Carrefour Soft doble fluor 90 g.",
   "retocada_con_ia": false
- },
- "0605388717474": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "0681131411332": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7792180144836": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7798024399974": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7799044000093": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7799044041959": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7799044049658": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7799044054522": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7799044068581": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7799044943666": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7799044943673": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7799044945554": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7799044947015": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7799120000993": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7798153715225": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7792052074759": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7792052074780": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7791720024843": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7798105580987": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7798123134773": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7792052998987": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7798270247241": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7798270247234": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "8480017299314": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7798270241492": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7799120000610": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "8480017558121": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "8480017260154": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "8480017288158": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7798270244349": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
- },
- "7792052064569": {
-  "fuente": "Foto provista por Punto Focal Diseño",
-  "manual": true
  }
 }
